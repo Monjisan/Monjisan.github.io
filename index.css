@@ -5,22 +5,26 @@ body{
 }
 #container{
   margin: 0 auto;
+  width: 700px;
 }
 
 /* header */
 header{
   background: #fff;
-  border: solid 2px #eee;
+  border: solid 5px #eee;
+  padding: 3px;
 }
 
 /* main section */
 section.main{
   background: #fff;
-  border: solid 1px #eee;
+  border: solid 3px #eee;
+  padding: 3px;
 }
 
 /* footer */
 footer{
   background: #fff;
-  border: solid 2px #eee;
+  border: solid 5px #eee;
+  padding: 3px;
 }
