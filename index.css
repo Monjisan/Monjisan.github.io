@@ -1,0 +1,26 @@
+/* body */
+body{
+  background: #f0f5ff;
+  margin: 0px;
+}
+#container{
+  margin: 0 auto;
+}
+
+/* header */
+header{
+  background: #fff;
+  border: solid 2px #eee;
+}
+
+/* main section */
+section.main{
+  background: #fff;
+  border: solid 1px #eee;
+}
+
+/* footer */
+footer{
+  background: #fff;
+  border: solid 2px #eee;
+}
