@@ -60,7 +60,7 @@ body{
   margin: 0px auto;
   width: 700px;
 }
-@media handheld{
+@media(max-width:700px){
   #container{
     margin: 0px;
     width: 100%;
