@@ -66,6 +66,10 @@ body{
     width: 100%;
   }
 }
+a{
+  color: #000;
+  text-decoration: none;
+}
 
 
 /* header */
@@ -89,6 +93,10 @@ h2{
   background: #fff;
   margin: 5px;
   padding: 3px;
+}
+.main a:hover{
+  color: #333;
+  text-decoration: underline;
 }
 #tabList{
   
@@ -122,6 +130,9 @@ h2{
 }
 .contents > section{
   padding: 15px 0px 5px 5px;
+}
+.contents li{
+  padding: 3px 0px;
 }
 .comments{
   font-size:50%;
