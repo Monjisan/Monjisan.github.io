@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,6 +13,8 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
   <link rel="shortcut icon" href="">
+  <script type="text/javascript" src="jquery-1.11.0.min.js"></script>
+  <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
 <div id="container">
@@ -20,10 +22,40 @@
     <h1>Monjisan's page</h1>
   </header>
   <section class="main">
-    making now.
+
+    <ul id="tabList">
+      <li class="tabItem selectTab" id="tab0">Top</li>
+      <li class="tabItem" id="tab1">Products</li>
+      <!--
+      <li class="tab" id="tab*"></li>
+      -->
+    </ul>
+
+    <section class="contents" id="tab0Contents">
+      <h2>Top</h2>
+      <section>
+        now making...
+      </section>
+    </section>
+    <section class="contents" id="tab1Contents" style="display:none;">
+      <h2>Products</h2>
+      <section>
+        <ul>
+          <li><a href="http://jsfiddle.net/Monjisan/eP75v/2/embedded/result/">打ち上げ花火</a></li>
+          <!--
+          <li><a href=""></a></li>
+          -->
+        </ul>
+      </section>
+    </section>
+    <!--
+    <section class="contents" id="tab*Contents" style="display:none;">
+      <h2></h2>
+    </section>
+    -->
   </section>
   <footer>
-    no copyright
+    2014/08/08 Monjisan Update
   </footer>
 </div>
 </body>
