@@ -51,7 +51,7 @@ header{
 }
 
 
-/* main section */
+/* main contents */
 .main{
   background: #fff;
   margin: 10px 5px;
@@ -66,6 +66,7 @@ header{
 }
 .tabItem{
   margin-right: 3px;
+  margin-top: 3px;
   padding: 5px;
   padding-bottom: 2px;
   color: #eef;
@@ -83,6 +84,8 @@ header{
 }
 .tabItem.selectTab{
   color: #000;
+  margin-top: 0px;
+  padding-bottom: 5px;
   background: #eef;
   cursor: default;
 }
@@ -99,35 +102,33 @@ header{
   border-left: solid 2px #330;
 }
 .contents{
-  padding: 5px 0px 15px 15px;
+  padding: 5px 10px 15px 15px;
   clear: left;
   background: #eef;
   position: relative;
   border: solid 2px #330;
   border-right: double 5px #330;
   border-bottom: double 5px #330;
-/*  border-top-right-radius: 5px;
-  border-bottom-left-radius: 5px;*/
+  box-shadow:2px 2px 4px 0px #660;
 }
-.contents:before{
+.contents:before, .contents:after{
   content: "";
   background: #fff;
   position: absolute;
   width: 3px;
   height: 3px;
+}
+.contents:before{
   right: -5px;
   top: -2px;
   border-bottom: solid 2px #330;
+  box-shadow: 1px -3px 4px -2px #660 inset;
 }
 .contents:after{
-  content: "";
-  background: #fff;
-  position: absolute;
-  width: 3px;
-  height: 3px;
   bottom: -5px;
   left: -2px;
   border-right: solid 2px #330;
+  box-shadow: -3px 1px 4px -2px #660 inset;
 }
 .contents > section{
   padding: 15px 0px 5px 5px;
