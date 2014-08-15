@@ -4,18 +4,32 @@
 // tab system
   var tabID = 'tab0';
   // tab change function
-  function chageTab(){
+  function changeTab(){
     var ID = $(this).attr('id');
     if(ID!=tabID){
       $('.tabItem#'+tabID).removeClass('selectTab');
       $(this).addClass('selectTab');
       $('.contents#'+tabID+'Contents').css('display','none');
       $('.contents#'+ID+'Contents').css('display','');
-      tabID = ID;
+      location.hash = tabID = ID;
     }
   }
+
   // tab init
-  $('.tabItem').click(chageTab);
+  $('.tabItem').click(changeTab);
+
+  // hash init
+  function changeHash(){
+    if(location.hash){
+      var tab = $(location.hash);
+      if(tab.hasClass('tabItem')){
+        tab.click();
+      }
+    }else{
+      $('#tab0').click();
+    }
+  }
+  window.onhashchange = changeHash;
 
 // init link to out
   $('a').each(function(){
@@ -28,4 +42,6 @@
       }
     }
   });
+
+  changeHash();
 });
