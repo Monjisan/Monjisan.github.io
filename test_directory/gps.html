@@ -1,0 +1,46 @@
+<!DOCTYPE>
+<html>
+<head>
+
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBDj8H5CMzqonMcl8Qfrl_AzXo0SEDmtDU&sensor=false"></script>
+<script>
+function initialize(){
+var cb=function(position){
+  var x=position.coords.latitude,
+        y=position.coords.longitude;
+  var gl_text = "緯度：" + position.coords.latitude + "<br>";
+    gl_text += "経度：" + position.coords.longitude + "<br>";
+    gl_text += "高度：" + position.coords.altitude + "<br>";
+    gl_text += "緯度・経度の誤差：" + position.coords.accuracy + "<br>";
+    gl_text += "高度の誤差：" + position.coords.altitudeAccuracy + "<br>";
+    gl_text += "方角：" + position.coords.heading + "<br>";
+    gl_text += "速度：" + position.coords.speed + "<br>";
+  document.getElementById("disp").innerHTML = gl_text;
+  setTimeout(call, 500);
+};
+var error=function(){
+  document.getElementById("disp").innerHTML='1234';
+};
+var call=function(){
+navigator.geolocation.getCurrentPosition(
+  cb, error);
+};
+if (navigator.geolocation) {
+         var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new //google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+  call();
+} else {
+  document.getElementById("disp").innerHTML='123';
+}
+}
+</script>
+</head>
+<body onload="initialize()">
+<div id="disp"></div>
+<div id="map_canvas" style="width:400px;height:400px;"></div>
+</body>
+</html>
