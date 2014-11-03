@@ -1,4 +1,4 @@
-<!DOCTYPE>
+ï»¿<!DOCTYPE>
 <html>
 <head>
 
@@ -8,13 +8,13 @@ function initialize(){
 var cb=function(position){
   var x=position.coords.latitude,
         y=position.coords.longitude;
-  var gl_text = "ˆÜ“xF" + position.coords.latitude + "<br>";
-    gl_text += "Œo“xF" + position.coords.longitude + "<br>";
-    gl_text += "‚“xF" + position.coords.altitude + "<br>";
-    gl_text += "ˆÜ“xEŒo“x‚ÌŒë·F" + position.coords.accuracy + "<br>";
-    gl_text += "‚“x‚ÌŒë·F" + position.coords.altitudeAccuracy + "<br>";
-    gl_text += "•ûŠpF" + position.coords.heading + "<br>";
-    gl_text += "‘¬“xF" + position.coords.speed + "<br>";
+  var gl_text = "ç·¯åº¦ï¼š" + position.coords.latitude + "<br>";
+    gl_text += "çµŒåº¦ï¼š" + position.coords.longitude + "<br>";
+    gl_text += "é«˜åº¦ï¼š" + position.coords.altitude + "<br>";
+    gl_text += "ç·¯åº¦ãƒ»çµŒåº¦ã®èª¤å·®ï¼š" + position.coords.accuracy + "<br>";
+    gl_text += "é«˜åº¦ã®èª¤å·®ï¼š" + position.coords.altitudeAccuracy + "<br>";
+    gl_text += "æ–¹è§’ï¼š" + position.coords.heading + "<br>";
+    gl_text += "é€Ÿåº¦ï¼š" + position.coords.speed + "<br>";
   document.getElementById("disp").innerHTML = gl_text;
   setTimeout(call, 500);
 };
@@ -25,17 +25,20 @@ var call=function(){
 navigator.geolocation.getCurrentPosition(
   cb, error);
 };
+
+  var mapOptions = {
+    center: new google.maps.LatLng(-34.397, 150.644),
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+
 if (navigator.geolocation) {
-         var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new //google.maps.Map(document.getElementById("map_canvas"),mapOptions);
   call();
 } else {
   document.getElementById("disp").innerHTML='123';
 }
+
 }
 </script>
 </head>
