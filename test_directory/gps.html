@@ -1,9 +1,11 @@
 ﻿<!DOCTYPE>
 <html>
 <head>
-
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBDj8H5CMzqonMcl8Qfrl_AzXo0SEDmtDU&sensor=false"></script>
-<script>
+<title>GPS and MAPapis test</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBDj8H5CMzqonMcl8Qfrl_AzXo0SEDmtDU&sensor=false"></script>
+<script type="text/javascript">
+var map;
 function initialize(){
 var cb=function(position){
   var x=position.coords.latitude,
@@ -31,7 +33,7 @@ navigator.geolocation.getCurrentPosition(
     zoom: 8,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
+  map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
 
 if (navigator.geolocation) {
   call();
