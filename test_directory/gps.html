@@ -20,10 +20,10 @@ function initialize(){
       gl_text += "速度：" + position.coords.speed + "<br>";
     document.getElementById("disp").innerHTML = gl_text;
     map.setCenter(new google.maps.LatLng(y, x));
-    setTimeout(call, 500);
+    setTimeout(call, 1000);
   };
   var error=function(){
-    document.getElementById("disp").innerHTML='1234';
+    document.getElementById("disp").innerHTML='GPS error';
   };
   var call=function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -39,7 +39,7 @@ function initialize(){
   if (navigator.geolocation) {
     call();
   } else {
-    document.getElementById("disp").innerHTML='123';
+    error();
   }
 
 }
