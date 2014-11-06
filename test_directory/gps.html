@@ -60,6 +60,7 @@ function initialize(){
     var ways=$(res).find("way").filter(function(){
       return $(this).find("tag[k=highway]").length;
     });
+console.log(ways);
     for(var i=0;i<ways.length;++i){
       var nd=[], node=ways[i].find("nd");
       for(var j=0;j<node.length;++j){
