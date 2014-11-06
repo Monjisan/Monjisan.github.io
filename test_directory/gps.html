@@ -59,10 +59,14 @@ function initialize(){
     path=[];
     var ways=$(res).find("way").filter(function(){
       return $(this)
-         .find("tag[k=railway][v=rail]").length;
+         .find("tag[k=railway][v=rail]").length+
+         $(this)
+         .find("tag[k=highway]").length;
     });
     for(var i=0;i<ways.length;++i){
       var nd=[], node=$(ways[i]).find("nd");
+      var color=node.find("tag[k=highway]").length?
+        "#666":;"#000"
       for(var j=0;j<node.length;++j){
         var ndd=$(res).find("node[id="+
           $(node[j]).attr("ref")+
@@ -75,7 +79,7 @@ console.log(ndd,ndd.attr("lat"),
           ndd.attr("lon"));
       }
       var p=new google.maps.Polyline({
-        path:nd
+        path:nd,strokeColor:color
       });
       path.push(p);
       p.setMap(map);
