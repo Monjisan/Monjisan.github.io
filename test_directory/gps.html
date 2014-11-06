@@ -46,7 +46,7 @@ var url;
         url:url=
         "http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
-        [pos[0]-d,pos[1]-d,pos[0]+d,pos[1]+d].join()
+        [pos[1]-d,pos[0]-d,pos[1]+d,pos[0]+d].join()
         ,type:"GET",
         success:setLine
         //,error:error
