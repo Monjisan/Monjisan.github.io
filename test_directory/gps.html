@@ -36,6 +36,7 @@ function initialize(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var path, d=0.01, getLine=function(){
+try{
     if(Math.pow(getpos[0]-pos[0],2)+
        Math.pow(getpos[1]-pos[1],2)>=d*d/4){
       $.get("http://api.openstreetmap.org/api/"+
@@ -45,8 +46,11 @@ function initialize(){
       getpos = pos.concat();
     }
     setTimeout(getLine, 10000);
+}catch(e){ $("#error").text(e); }
   }, setLine=function(res){
+try{
     $("#xml").text(res);
+}catch(e){ $("#error").text(e); }
     /*if(path)path.setMap(null);
     path = new google.maps.Polyline({
       path:[
