@@ -36,12 +36,14 @@ function initialize(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var path, setLine=function(){
+    if(path)path.setMap(null);
     path = new google.maps.Polyline({
       path:[
         new google.maps.LatLng(pos[0],pos[1]),
    new google.maps.LatLng(pos[0]+0.01,pos[1]),
       ]});
     path.setMap(map);
+    setTimeout(setLine, 10000);
   };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
