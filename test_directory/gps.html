@@ -65,8 +65,8 @@ function initialize(){
     });
     for(var i=0;i<ways.length;++i){
       var nd=[], node=$(ways[i]).find("nd");
-      var color=node.find("tag[k=highway]").length?
-        "#666":"#000";
+      var color=$(ways[i]).find("tag[k=highway]")
+        .length?"#666":"#000";
       for(var j=0;j<node.length;++j){
         var ndd=$(res).find("node[id="+
           $(node[j]).attr("ref")+
