@@ -24,7 +24,7 @@ function initialize(){
     setTimeout(call, 1000);
   };
   var error=function(){
-    $("#error").html('GPS error');
+    $("#error").html('GPS Error');
   };
   var call=function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -35,47 +35,54 @@ function initialize(){
     zoom: 18,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  var path, d=0.01, getLine=function(){
-    $("#error").text("getline:"+pos.join());
-try{
+  var path, d=0.005, streetError=function(){
+    $("#error").html('StreetMapAPI Error');
+  }, getLine=function(){
     if(Math.pow(getpos[0]-pos[0],2)+
        Math.pow(getpos[1]-pos[1],2)>=d*d/4){
-$("#error").text("getline main s:"+pos.join());
-var url;
       $.ajax({
-        url:url=
-        "http://api.openstreetmap.org/api/"+
+        url:"http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
         [pos[1]-d,pos[0]-d,pos[1]+d,pos[0]+d].join()
         ,type:"GET",
         success:setLine
-        //,error:error
+        ,error:streetError
       });
       getpos = pos.concat();
-$("#error").text("getline main e:"+pos.join()+
-    "\n"+url);
     }
     setTimeout(getLine, 10000);
-//$("#error").text("getline end:"+pos.join());
-}catch(e){ $("#error").text("er:"+e); }
   }, setLine=function(res){
-    $("#error").text("setline:"+pos.join());
-try{
     $("#xml").text(res);
-}catch(e){ $("#error").text(e); }
-    if(path)path.setMap(null);
-    path = new google.maps.Polyline({
-      path:[
-        new google.maps.LatLng(pos[0],pos[1]),
-   new google.maps.LatLng(pos[0]+0.01,pos[1]),
-      ]});
-    path.setMap(map);
+    if(path)for(var i=0;i<path.length;++i){
+      path[i].setMap(null);
+    }
+    path=[];
+    var ways=$(res).find("way").filter(function(){
+      return $(this).find("tag[k=highway]").length);
+    });
+    for(var i=0;i<ways.length;++i){
+      var nd=[], node=ways[i].find("nd");
+      for(var j=0;j<node.length;++j){
+        var ndd=$(this).find("node[id="+
+          node[j].attr("ref")+
+          "]")
+        nd.push(new google.maps.LatLng(
+          ndd.attr("lat")-0,
+          ndd.attr("lon")-0
+          ));
+      }
+      var p=new google.maps.Polyline({
+        path:nd
+      });
+      path.push(p);
+      p.setMap(map);
+    }
   };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
   if (navigator.geolocation) {
     call();
-    getLine();
+    setTimeout(getLine,1000);
   } else {
     error();
   }
