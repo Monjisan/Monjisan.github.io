@@ -38,7 +38,7 @@ function initialize(){
   var path, d=0.01, getLine=function(){
     $("#error").text("getline:"+pos.join());
 try{
-    /*if(Math.pow(getpos[0]-pos[0],2)+
+    if(Math.pow(getpos[0]-pos[0],2)+
        Math.pow(getpos[1]-pos[1],2)>=d*d/4){
 $("#error").text("getline main:"+pos.join());
       $.get("http://api.openstreetmap.org/api/"+
@@ -46,7 +46,7 @@ $("#error").text("getline main:"+pos.join());
         [pos[0]-d,pos[1]-d,pos[0]+d,pos[1]+d].join()
         ,setLine);
       getpos = pos.concat();
-    }*/
+    }
     setTimeout(getLine, 10000);
 $("#error").text("getline end:"+pos.join());
 }catch(e){ $("#error").text("er:"+e); }
