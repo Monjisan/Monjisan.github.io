@@ -59,9 +59,9 @@ function initialize(){
     path=[];
     var ways=$(res).find("way").filter(function(){
       return $(this)
-         .find("tag[k=railway][v=rail]").length+
-         $(this)
-         .find("tag[k=highway]").length;
+         .find("tag[k=railway][v=rail]").length
+         /*+$(this)
+         .find("tag[k=highway]").length*/;
     });
     for(var i=0;i<ways.length;++i){
       var nd=[], node=$(ways[i]).find("nd");
