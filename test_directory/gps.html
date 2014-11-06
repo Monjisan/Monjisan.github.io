@@ -36,6 +36,7 @@ function initialize(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var path, setLine=function(){
+    try{
     if(path)path.setMap(null);
     path = new google.maps.Polyline({
       path:[
@@ -43,6 +44,9 @@ function initialize(){
    new google.maps.LatLng(pos[0]+0.01,pos[1]),
       ]});
     path.setMap(map);
+    }catch(e){
+      document.getElementById("error").innerText=""+e;
+    }
     setTimeout(setLine, 10000);
   };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -59,6 +63,7 @@ function initialize(){
 </head>
 <body onload="initialize()" style="margin:0px;">
 <div id="disp"></div>
+<b id="error"></b>
 <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div>
 </body>
 </html>
