@@ -62,10 +62,10 @@ function initialize(){
     });
 console.log(ways);
     for(var i=0;i<ways.length;++i){
-      var nd=[], node=ways[i].find("nd");
+      var nd=[], node=$(ways[i]).find("nd");
       for(var j=0;j<node.length;++j){
         var ndd=$(this).find("node[id="+
-          node[j].attr("ref")+
+          $(node[j]).attr("ref")+
           "]")
         nd.push(new google.maps.LatLng(
           ndd.attr("lat")-0,
