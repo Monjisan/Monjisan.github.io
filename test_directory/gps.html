@@ -6,7 +6,7 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBDj8H5CMzqonMcl8Qfrl_AzXo0SEDmtDU&sensor=false"></script>
 <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
-var map,pos=[0,0];
+var map,pos=[0,0],getpos=[0,0];
 function initialize(){
   var cb=function(position){
     var y=position.coords.latitude,
@@ -35,21 +35,25 @@ function initialize(){
     zoom: 18,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  var path, getLine=function(){
-    $.get("",setLine);
+  var path, d=0.01, getLine=function(){
+    if(Math.pow(getpos[0]-pos[0],2)+
+       Math.pow(getpos[1]-pos[1],2)>=d*d/4){
+      $.get("http://api.openstreetmap.org/api/"+
+        "0.6/map?bbox="+
+        [pos[0]-d,pos[1]-d,pos[0]+d,pos[1]+d].join()
+        ,setLine);
+      getpos = pos.concat();
+    }
+    setTimeout(getLine, 10000);
   }, setLine=function(res){
-    try{
-    if(path)path.setMap(null);
+    $("#xml").text(res);
+    /*if(path)path.setMap(null);
     path = new google.maps.Polyline({
       path:[
         new google.maps.LatLng(pos[0],pos[1]),
    new google.maps.LatLng(pos[0]+0.01,pos[1]),
       ]});
-    path.setMap(map);
-    }catch(e){
-      $("#error").text(""+e);
-    }
-    setTimeout(getLine, 10000);
+    path.setMap(map);*/
   };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
@@ -67,5 +71,6 @@ function initialize(){
 <div id="disp"></div>
 <b id="error"></b>
 <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div>
+<div id="xml"></div>
 </body>
 </html>
