@@ -60,7 +60,6 @@ function initialize(){
     var ways=$(res).find("way").filter(function(){
       return $(this).find("tag[k=highway]").length;
     });
-console.log(ways);
     for(var i=0;i<ways.length;++i){
       var nd=[], node=$(ways[i]).find("nd");
       for(var j=0;j<node.length;++j){
@@ -72,6 +71,7 @@ console.log(ways);
           ndd.attr("lon")-0
           ));
       }
+console.log(nd);
       var p=new google.maps.Polyline({
         path:nd
       });
