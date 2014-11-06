@@ -24,7 +24,7 @@ function initialize(){
     setTimeout(call, 1000);
   };
   var error=function(){
-    $("#disp").html('GPS error');
+    $("#error").html('GPS error');
   };
   var call=function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -41,10 +41,13 @@ try{
     if(Math.pow(getpos[0]-pos[0],2)+
        Math.pow(getpos[1]-pos[1],2)>=d*d/4){
 $("#error").text("getline main:"+pos.join());
-      $.get("http://api.openstreetmap.org/api/"+
+      $.ajax({
+        url:"http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
         [pos[0]-d,pos[1]-d,pos[0]+d,pos[1]+d].join()
-        ,setLine);
+        ,type:"GET",
+        success:setLine,
+        error:error);
       getpos = pos.concat();
     }
     setTimeout(getLine, 10000);
