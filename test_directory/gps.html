@@ -63,7 +63,7 @@ function initialize(){
     for(var i=0;i<ways.length;++i){
       var nd=[], node=$(ways[i]).find("nd");
       for(var j=0;j<node.length;++j){
-        var ndd=$(this).find("node[id="+
+        var ndd=$(res).find("node[id="+
           $(node[j]).attr("ref")+
           "]")
         nd.push(new google.maps.LatLng(
