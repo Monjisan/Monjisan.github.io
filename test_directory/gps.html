@@ -67,11 +67,12 @@ function initialize(){
           $(node[j]).attr("ref")+
           "]")
         nd.push(new google.maps.LatLng(
-          ndd.attr("lat")-0,
-          ndd.attr("lon")-0
+          ndd.attr("lat"),
+          ndd.attr("lon")
           ));
+console.log(ndd,ndd.attr("lat"),
+          ndd.attr("lon"));
       }
-console.log(nd);
       var p=new google.maps.Polyline({
         path:nd
       });
