@@ -19,12 +19,12 @@ function initialize(){
       gl_text += "高度の誤差：" + position.coords.altitudeAccuracy + "<br>";
       gl_text += "方角：" + position.coords.heading + "<br>";
       gl_text += "速度：" + position.coords.speed + "<br>";
-    document.getElementById("disp").innerHTML = gl_text;
+    $("#disp").html(gl_text);
     map.setCenter(new google.maps.LatLng(y, x));
     setTimeout(call, 1000);
   };
   var error=function(){
-    document.getElementById("disp").innerHTML='GPS error';
+    $("#disp").html('GPS error');
   };
   var call=function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -35,7 +35,9 @@ function initialize(){
     zoom: 18,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  var path, setLine=function(){
+  var path, getLine=function(){
+    $.get("",setLine);
+  }, setLine=function(res){
     try{
     if(path)path.setMap(null);
     path = new google.maps.Polyline({
@@ -45,15 +47,15 @@ function initialize(){
       ]});
     path.setMap(map);
     }catch(e){
-      document.getElementById("error").innerText=""+e;
+      $("#error").text(""+e);
     }
-    setTimeout(setLine, 10000);
+    setTimeout(getLine, 10000);
   };
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
   if (navigator.geolocation) {
     call();
-    setLine();
+    getLine();
   } else {
     error();
   }
