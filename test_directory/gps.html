@@ -8,6 +8,8 @@
 <script type="text/javascript">
 var map,pos=[0,0],getpos=[0,0];
 function initialize(){
+
+  // get GPS sector
   var cb=function(position){
     var y=position.coords.latitude,
         x=position.coords.longitude;
@@ -30,11 +32,8 @@ function initialize(){
     navigator.geolocation.getCurrentPosition(cb, error);
   };
 
-  var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 18,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  };
+
+  // create path sector
   var path, d=0.005, streetError=function(){
     $("#error").html('StreetMapAPI Error');
   }, getLine=function(){
@@ -57,37 +56,44 @@ function initialize(){
       path[i].setMap(null);
     }
     path=[];
-    var ways=$(res).find("way").filter(function(){
+    $(res).find("way").filter(function(){
       return $(this)
-         .find("tag[k=railway][v=rail]").length
-         /*+$(this)
-         .find("tag[k=highway]").length*/;
-    });
-    for(var i=0;i<ways.length;++i){
-      var nd=[], node=$(ways[i]).find("nd");
-      var color=$(ways[i]).find("tag[k=highway]")
-        .length?"#666":"#000";
-      for(var j=0;j<node.length;++j){
+         .find("tag[k=railway][v=rail]"
+         /* +",tag[k=highway]" */ ).length;
+    }).each(function(){
+      var nd=[];
+      var color=$(this).find("tag[k=railway]")
+        .length?"#000":"#666";
+      $(this).find("nd").each(function(){
         var ndd=$(res).find("node[id="+
-          $(node[j]).attr("ref")+
+          $(this).attr("ref")+
           "]")
         nd.push(new google.maps.LatLng(
           ndd.attr("lat"),
           ndd.attr("lon")
           ));
-      }
+      });
       var p=new google.maps.Polyline({
         path:nd,strokeColor:color
       });
       path.push(p);
       p.setMap(map);
-    }
+    });
   };
-  map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
+  // set google map
+  var mapOptions = {
+    center: new google.maps.LatLng(-34.397, 150.644),
+    zoom: 18,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map($("#map_canvas")[0], mapOptions);
+
+
+  // call main thread
   if (navigator.geolocation) {
     call();
-    setTimeout(getLine,1000);
+    setTimeout(getLine,500);
   } else {
     error();
   }
