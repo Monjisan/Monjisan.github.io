@@ -27,8 +27,8 @@ function initialize(){
     circle.setCenter(new google.maps.LatLng(y, x));
     setTimeout(call, 1000);
   };
-  var error=function(){
-    $("#error").html('GPS Error');
+  var error=function(e){
+    $("#error").html('GPS Error'+(e||""));
   };
   var call=function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -90,7 +90,7 @@ function initialize(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map($("#map_canvas")[0], mapOptions);
-
+try{
   var circleOptions = {
       strokeColor: "#555599",
       strokeOpacity: 0.8,
@@ -102,7 +102,9 @@ function initialize(){
       radius: 5
   };
   circle = new google.maps.Circle(circleOptions);
-
+}catch(e){
+  error(e);
+}
   // call main thread
   if (navigator.geolocation) {
     call();
