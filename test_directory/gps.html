@@ -7,7 +7,7 @@
 <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 var map,pos=[0,0],getpos=[0,0];
-var circle;
+var circle, defPos = new google.maps.LatLng(-34.397, 150.644);
 function initialize(){
 
   // get GPS sector
@@ -85,7 +85,7 @@ function initialize(){
 
   // set google map
   var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
+    center: defPos,
     zoom: 18,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -98,8 +98,8 @@ function initialize(){
       fillColor: "#9999FF",
       fillOpacity: 0.35,
       map: map,
-      center: citymap[city].center,
-      radius: citymap[city].population / 20
+      center: defPos,
+      radius: 5
   };
   circle = new google.maps.Circle(circleOptions);
 
