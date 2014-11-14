@@ -7,6 +7,7 @@
 <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript">
 var map,pos=[0,0],getpos=[0,0];
+var circle;
 function initialize(){
 
   // get GPS sector
@@ -23,6 +24,7 @@ function initialize(){
       gl_text += "速度：" + position.coords.speed + "<br>";
     $("#disp").html(gl_text);
     map.setCenter(new google.maps.LatLng(y, x));
+    circle.setCenter(new google.maps.LatLng(y, x));
     setTimeout(call, 1000);
   };
   var error=function(){
@@ -89,6 +91,17 @@ function initialize(){
   };
   map = new google.maps.Map($("#map_canvas")[0], mapOptions);
 
+  var circleOptions = {
+      strokeColor: "#555599",
+      strokeOpacity: 0.8,
+      strokeWeight: 1,
+      fillColor: "#9999FF",
+      fillOpacity: 0.35,
+      map: map,
+      center: citymap[city].center,
+      radius: citymap[city].population / 20
+  };
+  circle = new google.maps.Circle(circleOptions);
 
   // call main thread
   if (navigator.geolocation) {
