@@ -153,6 +153,7 @@ exec = function(src){eval(src);};
     });
     $("#marker_fixed").click(function(){
       $(this).text((markerMove=!markerMove)?"マーカー固定":"マーカー移動開始");
+      center.setDraggable(markerMove);
     });
   } else {
     error();
