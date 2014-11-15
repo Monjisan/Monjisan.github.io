@@ -117,7 +117,7 @@ exec = function(src){eval(src);};
     map: map,
     bounds: new google.maps.LatLngBounds(defPos, defPos)
   };
-  field = new google.maps.Rectangle(fieldOption);
+  field = new google.maps.Rectangle(fieldOptions);
 
   // call main thread
   if (navigator.geolocation) {
