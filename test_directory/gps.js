@@ -115,7 +115,7 @@ exec = function(src){eval(src);};
   var fieldOptions = {
     strokeColor: "#FF0011",
     map: map,
-    bounds: new google.maps.latLngBounds(defPos, defPos)
+    bounds: new google.maps.LatLngBounds(defPos, defPos)
   };
   field = new google.maps.Rectangle(fieldOption);
 
