@@ -10,8 +10,8 @@ vector = function(x,y){
       x = x.x;
     }
   }
-  this.x = x;
-  this.y = y;
+  this.x = x-0;
+  this.y = y-0;
 };
 vector.prototype = {
   copy:function(){

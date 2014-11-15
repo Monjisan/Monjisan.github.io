@@ -4,12 +4,22 @@ var circle, field;
 var fixed=true;
 
 
-
-
+// debug variable
+var exec;
 function initialize(){
 
+  //debug function
+exec = function(src){eval(src);};
+  var error = function(e){
+    $("#error").html('GPS Error'+(e||""));
+    console.error(e);
+  };
+
   // get GPS sector
-  var cb=function(position){
+  var call = function(){
+    navigator.geolocation.getCurrentPosition(cb, error);
+  };
+  var cb = function(position){
     pos = new vector(position.coords.longitude, position.coords.latitude);
     var gl_text = "緯度：" + pos.y + "<br>";
       gl_text += "経度：" + pos.x + "<br>";
@@ -28,33 +38,27 @@ function initialize(){
     circle.setCenter(c);
     setTimeout(call, 1000);
   };
-  var error=function(e){
-    $("#error").html('GPS Error'+(e||""));
-    console.error(e);
-  };
-  var call=function(){
-    navigator.geolocation.getCurrentPosition(cb, error);
-  };
-
 
   // create path sector
   var path, d = 0.005, dv = new vector(d,d),
-    streetError=function(){
-    $("#error").html('StreetMapAPI Error');
-  }, getLine=function(){
+  streetError = function(){
+    $("#error").append('<br>StreetMapAPI Error');
+  },
+  getLine = function(){
     if(getpos.dist(pos) >= d/2){
+      getpos = pos.copy();
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
-        pos.sub(d)+","+pos.add(d)
+        getpos.sub(dv)+","+getpos.add(dv)
         ,type:"GET",
         success:setLine
         ,error:streetError
       });
-      getpos = pos.copy();
     }
     setTimeout(getLine, 10000);
-  }, setLine=function(res){
+  },
+  setLine = function(res){
     $("#xml").text(res);
     if(path)for(var i=0;i<path.length;++i){
       path[i].setMap(null);
@@ -63,7 +67,7 @@ function initialize(){
     $(res).find("way").filter(function(){
       return $(this)
          .find("tag[k=railway][v=rail]"
-         /* +",tag[k=highway]" */ ).length;
+         +",tag[k=highway]"  ).length;
     }).each(function(){
       var nd=[];
       var color=$(this).find("tag[k=railway]")
@@ -83,6 +87,7 @@ function initialize(){
       path.push(p);
       p.setMap(map);
     });
+    filed.setBounds(new google.maps.latLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
   };
 
   // set google map
@@ -106,6 +111,13 @@ function initialize(){
   };
   circle = new google.maps.Circle(circleOptions);
 
+  // set loaded field
+  var fieldOptions = {
+    strokeColor: "#FF0011",
+    map: map,
+    bounds: new google.maps.latLngBounds(defPos, defPos)
+  };
+  field = new google.maps.Rectangle(fieldOption);
 
   // call main thread
   if (navigator.geolocation) {
