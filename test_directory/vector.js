@@ -7,8 +7,8 @@ vector = function(x,y){
     if(x===undef){
       x = y = 0.0;
     }else{
-      y = x.y;
-      x = x.x;
+      y = x.y||x.lat();
+      x = x.x||x.lng();
     }
   }
   this.x = x-0;

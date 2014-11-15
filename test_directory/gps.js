@@ -2,9 +2,10 @@
 var roadMap = {rail:[], way:[]};
 var defPos = new google.maps.LatLng(-34.397, 150.644);
 var center, field;
-var fixed=true;
+var fixed = true;
 
 var move = new vector();
+var markerMove = false;
 
 
 // debug variable
@@ -23,8 +24,12 @@ exec = function(src){eval(src);};
     navigator.geolocation.getCurrentPosition(cb, error);
   };
   var cb = function(position){
-    pos = new vector(position.coords.longitude, position.coords.latitude);
-    pos = pos.add(move);
+    if(markerMove){
+      pos = new vector(center.getPosition());
+    }else{
+      pos = new vector(position.coords.longitude, position.coords.latitude);
+      pos = pos.add(move);
+    }
     var gl_text = "緯度：" + pos.y + "<br>";
       gl_text += "経度：" + pos.x + "<br>";
       gl_text += "高度：" + position.coords.altitude + "<br>";
@@ -40,7 +45,7 @@ exec = function(src){eval(src);};
       map.setCenter(c);
     }
     /*center.setCenter(c);*/
-    center.setPosition(c);
+    if(!markerMove){ center.setPosition(c); }
 
     // set next action
     setTimeout(call, 1000);
@@ -145,6 +150,9 @@ exec = function(src){eval(src);};
     setTimeout(getLine,500);
     $("#fixed").click(function(){
       $(this).text((fixed=!fixed)?"移動開始":"現在地固定");
+    });
+    $("#marker_fixed").click(function(){
+      $(this).text((markerMove=!markerMove)?"マーカー固定":"マーカー移動開始");
     });
   } else {
     error();
