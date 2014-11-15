@@ -98,7 +98,7 @@ function initialize(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map($("#map_canvas")[0], mapOptions);
-try{
+
   var circleOptions = {
       strokeColor: "#555599",
       strokeOpacity: 0.8,
@@ -109,10 +109,9 @@ try{
       center: defPos,
       radius: 5
   };
-  circle = new google.maps.Circle(circleOptions);
-}catch(e){
-  error(e);
-}
+  circle=new google.maps.Circle(circleOptions);
+
+
   // call main thread
   if (navigator.geolocation) {
     call();
