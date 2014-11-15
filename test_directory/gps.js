@@ -1,7 +1,10 @@
 ﻿var map, pos = new vector(), getpos = new vector();
+var roadMap = {rail:[], way:[]};
 var defPos = new google.maps.LatLng(-34.397, 150.644);
-var circle, field;
+var center, field;
 var fixed=true;
+
+var move = new vector();
 
 
 // debug variable
@@ -21,6 +24,7 @@ exec = function(src){eval(src);};
   };
   var cb = function(position){
     pos = new vector(position.coords.longitude, position.coords.latitude);
+    pos = pos.add(move);
     var gl_text = "緯度：" + pos.y + "<br>";
       gl_text += "経度：" + pos.x + "<br>";
       gl_text += "高度：" + position.coords.altitude + "<br>";
@@ -35,7 +39,10 @@ exec = function(src){eval(src);};
     if(fixed){
       map.setCenter(c);
     }
-    circle.setCenter(c);
+    /*center.setCenter(c);*/
+    center.setPosition(c);
+
+    // set next action
     setTimeout(call, 1000);
   };
 
@@ -45,8 +52,9 @@ exec = function(src){eval(src);};
     $("#error").append('<br>StreetMapAPI Error');
   },
   getLine = function(){
-    if(getpos.dist(pos) >= d/2){
+    if(getpos.sub(pos).dist() >= d/2){
       getpos = pos.copy();
+      console.log("get new street map");
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
@@ -77,8 +85,8 @@ exec = function(src){eval(src);};
           $(this).attr("ref")+
           "]")
         nd.push(new google.maps.LatLng(
-          ndd.attr("lat"),
-          ndd.attr("lon")
+          ndd.attr("lat")-0,
+          ndd.attr("lon")-0
           ));
       });
       var p=new google.maps.Polyline({
@@ -87,7 +95,7 @@ exec = function(src){eval(src);};
       path.push(p);
       p.setMap(map);
     });
-    filed.setBounds(new google.maps.latLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
+    field.setBounds(new google.maps.LatLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
   };
 
   // set google map
@@ -99,21 +107,33 @@ exec = function(src){eval(src);};
   map = new google.maps.Map($("#map_canvas")[0], mapOptions);
 
   // set map object
+  /*
   var circleOptions = {
-      strokeColor: "#555599",
-      strokeOpacity: 0.8,
-      strokeWeight: 1,
-      fillColor: "#9999FF",
-      fillOpacity: 0.35,
-      map: map,
-      center: defPos,
-      radius: 5
+    strokeColor: "#555599",
+    strokeOpacity: 0.8,
+    strokeWeight: 1,
+    fillColor: "#9999FF",
+    fillOpacity: 0.35,
+    map: map,
+    center: defPos,
+    radius: 5
   };
-  circle = new google.maps.Circle(circleOptions);
+  center = new google.maps.Circle(circleOptions);
+  */
+  var markerOptions = {
+    map: map,
+    position: defPos,
+    draggable: false
+  };
+  center = new google.maps.Marker(markerOptions);
 
   // set loaded field
   var fieldOptions = {
     strokeColor: "#FF0011",
+    strokeOpacity: 1.0,
+    strokeWeight: 1,
+    fillColor: "#000",
+    fillOpacity: 0.01,
     map: map,
     bounds: new google.maps.LatLngBounds(defPos, defPos)
   };

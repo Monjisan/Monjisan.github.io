@@ -1,6 +1,7 @@
-﻿var vector;
+﻿var vector, line;
 (function(undef){
 
+// vector object
 vector = function(x,y){
   if(y===undef){
     if(x===undef){
@@ -29,14 +30,32 @@ vector.prototype = {
   cross:function(v){
     return this.x*v.y-this.y*v.x;
   },
-  dist:function(v){
-    return Math.sqrt(Math.pow(this.x-v.x, 2)+Math.pow(this.y-v.y, 2));
+  dist:function(){
+    return Math.sqrt(Math.pow(this.x, 2)+Math.pow(this.y, 2));
   },
   latLng:function(){
     return new google.maps.LatLng(this.y, this.x);
   },
   toString:function(){
     return this.x+","+this.y;
+  }
+};
+
+// line object
+line = function(p0,p1){
+  if(p0===undef || p1===undef){ p0=p1=new vector(); }
+  this.p0 = p0.copy();
+  this.p1 = p1.copy();
+};
+line.prototype = {
+  copy:function(){
+    return new line(this.p0, this.p1);
+  },
+  dist:function(v){
+    var lv = this.p1.sub(this.p0);
+    if(lv.dot(v.sub(this.p1))>0){ return v.sub(this.p1).dist(); }
+    else if(lv.dot(v.sub(this.p0))<0){ return v.sub(this.p0).dist(); }
+    return lv.cross(v.sub(this.p0))/lv.dist();
   }
 };
 
