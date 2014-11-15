@@ -1,4 +1,4 @@
-var map, pos = new vector(), getpos = new vector();
+ï»¿var map, pos = new vector(), getpos = new vector();
 var defPos = new google.maps.LatLng(-34.397, 150.644);
 var circle, field;
 var fixed=true;
@@ -11,13 +11,13 @@ function initialize(){
   // get GPS sector
   var cb=function(position){
     pos = new vector(position.coords.longitude, position.coords.latitude);
-    var gl_text = "ˆÜ“xF" + pos.y + "<br>";
-      gl_text += "Œo“xF" + pos.x + "<br>";
-      gl_text += "‚“xF" + position.coords.altitude + "<br>";
-      gl_text += "ˆÜ“xEŒo“x‚ÌŒë·F" + position.coords.accuracy + "<br>";
-      gl_text += "‚“x‚ÌŒë·F" + position.coords.altitudeAccuracy + "<br>";
-      gl_text += "•ûŠpF" + position.coords.heading + "<br>";
-      gl_text += "‘¬“xF" + position.coords.speed + "<br>";
+    var gl_text = "ç·¯åº¦ï¼š" + pos.y + "<br>";
+      gl_text += "çµŒåº¦ï¼š" + pos.x + "<br>";
+      gl_text += "é«˜åº¦ï¼š" + position.coords.altitude + "<br>";
+      gl_text += "ç·¯åº¦ãƒ»çµŒåº¦ã®èª¤å·®ï¼š" + position.coords.accuracy + "<br>";
+      gl_text += "é«˜åº¦ã®èª¤å·®ï¼š" + position.coords.altitudeAccuracy + "<br>";
+      gl_text += "æ–¹è§’ï¼š" + position.coords.heading + "<br>";
+      gl_text += "é€Ÿåº¦ï¼š" + position.coords.speed + "<br>";
     $("#disp").html(gl_text);
 
     // update position
@@ -112,7 +112,7 @@ function initialize(){
     call();
     setTimeout(getLine,500);
     $("#fixed").click(function(){
-      $(this).text((fixed=!fixed)?"ˆÚ“®ŠJn":"Œ»İ’nŒÅ’è");
+      $(this).text((fixed=!fixed)?"ç§»å‹•é–‹å§‹":"ç¾åœ¨åœ°å›ºå®š");
     });
   } else {
     error();

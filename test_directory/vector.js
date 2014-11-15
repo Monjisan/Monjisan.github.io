@@ -1,4 +1,4 @@
-var vector;
+﻿var vector;
 (function(undef){
 
 vector = function(x,y){
@@ -30,7 +30,7 @@ vector.prototype = {
     return this.x*v.y-this.y*v.x;
   },
   dist:function(v){
-    return Math.sqrt(Math.pow(this.x-v.x, 2)+Math.por(this.y-v.y, 2));
+    return Math.sqrt(Math.pow(this.x-v.x, 2)+Math.pow(this.y-v.y, 2));
   },
   latLng:function(){
     return new google.maps.LatLng(this.y, this.x);
