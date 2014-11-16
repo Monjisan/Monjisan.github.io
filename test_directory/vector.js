@@ -7,15 +7,12 @@ vector = function(x,y){
     if(x===undef){
       x = y = 0.0;
     }else{
-      y = x.y||x.lat();
-      x = x.x||x.lng();
+      y = x.y!==undef?x.y:typeof x.lat==="function"?x.lat():0.0;
+      x = x.x!==undef?x.x:typeof x.lng==="function"?x.lng():0.0;
     }
   }
-  this.x = x-0;
-  this.y = y-0;
-};
-vector.make = function(x,y){
-  new vector(x,y);
+  this.x = x-0.0;
+  this.y = y-0.0;
 };
 vector.prototype = {
   copy:function(){

@@ -114,8 +114,9 @@ exec = function(src){eval(src);};
           ndd.attr("lon")-0
           ));
       });
-      if(isRail){ roadMap.rail.push(nd.map(vector.make)); }
-      else{ roadMap.way.push(nd.map(vector.make)); }
+      var make = function(v){ return new vector(v); };
+      if(isRail){ roadMap.rail.push(nd.map(make)); }
+      else{ roadMap.way.push(nd.map(make)); }
       
       var p=new google.maps.Polyline({
         path:nd,strokeColor:color
