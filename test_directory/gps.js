@@ -6,6 +6,7 @@ var fixed = true;
 
 var move = new vector();
 var markerMove = false;
+var nearRail;
 
 
 // debug variable
@@ -41,11 +42,20 @@ exec = function(src){eval(src);};
 
     // update position
     var c = pos.latLng();
-    if(fixed){
-      map.setCenter(c);
-    }
-    /*center.setCenter(c);*/
+    if(fixed){ map.setCenter(c); }
     if(!markerMove){ center.setPosition(c); }
+    /*center.setCenter(c);*/
+    nearRailPos = pos;
+    var near = 100.0;
+    for(var i=1;i<roadMap.rail.length;++i){
+      var l = new line(roadMap.rail[i-1],roadMap.rail[i]),
+          dist = l.dist(pos);
+      if(near>dist){
+        near = dist;
+        nearRailPos = line.center();
+      }
+    }
+    nearRail.setPosition(nearRailPos.latLng());
 
     // set next action
     setTimeout(call, 1000);
@@ -141,6 +151,14 @@ exec = function(src){eval(src);};
     draggable: false
   };
   center = new google.maps.Marker(markerOptions);
+  
+  // set near rail marker
+  var nmOptions = {
+    map: map,
+    position: defPos,
+    draggable: false
+  };
+  nearRail = new google.maps.Marker(nmOptions);
 
   // set loaded field
   var fieldOptions = {

@@ -27,6 +27,9 @@ vector.prototype = {
   sub:function(v){
     return v!==undef ? new vector(this.x-v.x, this.y-v.y) : new vector(-this.x,-this.y);
   },
+  scale:function(d){
+    return new vector(this.x*d, this.y*d);
+  },
   dot:function(v){
     return this.x*v.x+this.y*v.y;
   },
@@ -47,8 +50,8 @@ vector.prototype = {
 
 // line object
 line = function(p0,p1){
-  if(!(p0 instanceof vector)){ p0 = new vector(); }
-  if(!(p1 instanceof vector)){ p1 = new vector(); }
+  if(!(p0 instanceof vector)){ p0 = new vector(p0); }
+  if(!(p1 instanceof vector)){ p1 = new vector(p1); }
   if(p0.x>p1.x){ var p=p0;p0=p1;p1=p; }
   this.p0 = p0.copy();
   this.p1 = p1.copy();
@@ -62,6 +65,9 @@ line.prototype = {
     if(lv.dot(v.sub(this.p1))>0){ return v.sub(this.p1).dist(); }
     else if(lv.dot(v.sub(this.p0))<0){ return v.sub(this.p0).dist(); }
     return lv.cross(v.sub(this.p0))/lv.dist();
+  },
+  center:function(){
+    return this.p0.add(this.p1).scale(0.5);
   }
 };
 
