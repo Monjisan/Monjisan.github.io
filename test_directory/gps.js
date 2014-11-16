@@ -54,7 +54,7 @@ exec = function(src){eval(src);};
             dist = l.dist(pos);
         if(near>dist){
           near = dist;
-          nearRailPos = line.center();
+          nearRailPos = l.center();
         }
       }
     }
