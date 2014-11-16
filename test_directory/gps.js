@@ -31,6 +31,7 @@ exec = function(src){eval(src);};
       pos = new vector(position.coords.longitude, position.coords.latitude);
       pos = pos.add(move);
     }
+
     var gl_text = "緯度：" + pos.y + "<br>";
       gl_text += "経度：" + pos.x + "<br>";
       gl_text += "高度：" + position.coords.altitude + "<br>";
@@ -38,7 +39,6 @@ exec = function(src){eval(src);};
       gl_text += "高度の誤差：" + position.coords.altitudeAccuracy + "<br>";
       gl_text += "方角：" + position.coords.heading + "<br>";
       gl_text += "速度：" + position.coords.speed + "<br>";
-    $("#disp").html(gl_text);
 
     // update position
     var c = pos.latLng();
@@ -50,7 +50,7 @@ exec = function(src){eval(src);};
     for(var i=0;i<roadMap.rail.length;++i){
       var rails = roadMap.rail[i];
       for(var j=1;j<rails.length;++j){
-        var l = new line(rails[j-1],rails[j]),
+        var l = new line(rails[j-1], rails[j]),
             dist = l.dist(pos);
         if(near>dist){
           near = dist;
@@ -59,6 +59,8 @@ exec = function(src){eval(src);};
       }
     }
     nearRail.setPosition(nearRailPos.latLng());
+
+    $("#disp").html(gl_text);
 
     // set next action
     setTimeout(call, 1000);

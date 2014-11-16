@@ -61,7 +61,7 @@ line.prototype = {
     var lv = this.p1.sub(this.p0);
     if(lv.dot(v.sub(this.p1))>0){ return v.sub(this.p1).dist(); }
     else if(lv.dot(v.sub(this.p0))<0){ return v.sub(this.p0).dist(); }
-    return lv.cross(v.sub(this.p0))/lv.dist();
+    return Math.abs(lv.cross(v.sub(this.p0)))/lv.dist();
   },
   center:function(){
     return this.p0.add(this.p1).scale(0.5);
