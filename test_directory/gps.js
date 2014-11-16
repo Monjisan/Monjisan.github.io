@@ -47,12 +47,15 @@ exec = function(src){eval(src);};
     /*center.setCenter(c);*/
     nearRailPos = pos;
     var near = 100.0;
-    for(var i=1;i<roadMap.rail.length;++i){
-      var l = new line(roadMap.rail[i-1],roadMap.rail[i]),
-          dist = l.dist(pos);
-      if(near>dist){
-        near = dist;
-        nearRailPos = line.center();
+    for(var i=0;i<roadMap.rail.length;++i){
+      var rails = roadMap.rail[i];
+      for(var j=1;j<rails.length;++j){
+        var l = new line(rails[j-1],rails[j]),
+            dist = l.dist(pos);
+        if(near>dist){
+          near = dist;
+          nearRailPos = line.center();
+        }
       }
     }
     nearRail.setPosition(nearRailPos.latLng());
