@@ -53,11 +53,13 @@ exec = function(src){eval(src);};
 
   // create path sector
   var path, d = 0.005, dv = new vector(d,d),
+      railTag = "tag[k=railway][v=rail]",
+      highwayTag = "tag[k=highway]",
   streetError = function(){
     $("#error").append('<br>StreetMapAPI Error');
   },
   getLine = function(){
-    if(getpos.sub(pos).dist() >= d/2){
+    if(getpos.dist(pos) >= d/2){
       getpos = pos.copy();
       console.log("get new street map");
       $.ajax({
@@ -72,19 +74,24 @@ exec = function(src){eval(src);};
     setTimeout(getLine, 10000);
   },
   setLine = function(res){
+    // reset map objects
     $("#xml").text(res);
     if(path)for(var i=0;i<path.length;++i){
       path[i].setMap(null);
     }
     path=[];
+    roadMap.rail = [];
+    roadMap.way  = [];
+    
+    // get and set way lines
     $(res).find("way").filter(function(){
       return $(this)
-         .find("tag[k=railway][v=rail]"
-         +",tag[k=highway]"  ).length;
+           .find(railTag+","+highwayTag)
+           .length>0;
     }).each(function(){
       var nd=[];
-      var color=$(this).find("tag[k=railway]")
-        .length?"#000":"#666";
+      var isRail = $(this).find(railTag).length>0
+      var color=isRail?"#000":"#666";
       $(this).find("nd").each(function(){
         var ndd=$(res).find("node[id="+
           $(this).attr("ref")+
@@ -94,6 +101,9 @@ exec = function(src){eval(src);};
           ndd.attr("lon")-0
           ));
       });
+      if(isRail){ roadMap.rail.push(nd.map(vector.make)); }
+      else{ roadMap.way.push(nd.map(vector.make)); }
+      
       var p=new google.maps.Polyline({
         path:nd,strokeColor:color
       });

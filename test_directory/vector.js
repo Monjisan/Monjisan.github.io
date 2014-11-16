@@ -14,6 +14,9 @@ vector = function(x,y){
   this.x = x-0;
   this.y = y-0;
 };
+vector.make = function(x,y){
+  new vector(x,y);
+};
 vector.prototype = {
   copy:function(){
     return new vector(this.x, this.y);
@@ -30,8 +33,9 @@ vector.prototype = {
   cross:function(v){
     return this.x*v.y-this.y*v.x;
   },
-  dist:function(){
-    return Math.sqrt(Math.pow(this.x, 2)+Math.pow(this.y, 2));
+  dist:function(v){
+    if(v===undef){ v = new vector(); }
+    return Math.sqrt(Math.pow(this.x-v.x, 2)+Math.pow(this.y-v.y, 2));
   },
   latLng:function(){
     return new google.maps.LatLng(this.y, this.x);
@@ -43,7 +47,9 @@ vector.prototype = {
 
 // line object
 line = function(p0,p1){
-  if(p0===undef || p1===undef){ p0=p1=new vector(); }
+  if(!(p0 instanceof vector)){ p0 = new vector(); }
+  if(!(p1 instanceof vector)){ p1 = new vector(); }
+  if(p0.x>p1.x){ var p=p0;p0=p1;p1=p; }
   this.p0 = p0.copy();
   this.p1 = p1.copy();
 };
