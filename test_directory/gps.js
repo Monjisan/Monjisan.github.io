@@ -101,7 +101,7 @@ exec = function(src){eval(src);};
     // get and set way lines
     $(res).find("way").filter(function(){
       return $(this)
-           .find(railTag+","+highwayTag)
+           .find(railTag/*+","+highwayTag*/)
            .length>0;
     }).each(function(){
       var nd=[];
