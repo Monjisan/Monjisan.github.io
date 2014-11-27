@@ -65,7 +65,7 @@ exec = function(src){eval(src);};
     }
     nearRail.setPosition(nearRailPos.latLng());
 
-    $("#gps").text(text.join("\n"));
+    $("#gps").html(text.join("<br>"));
 
     // set next action
     setTimeout(call, 1000);
@@ -80,7 +80,7 @@ exec = function(src){eval(src);};
       "加速度 Y:" + accel.y,
       "加速度 Z:" + accel.z
     ];
-    $("#acc").text(text.join("\n"));
+    $("#acc").html(text.join("<br>"));
   };
 
 
