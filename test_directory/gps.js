@@ -89,7 +89,10 @@ exec = function(src){eval(src);};
     var text = [
       "加速度 X:" + accel.x,
       "加速度 Y:" + accel.y,
-      "加速度 Z:" + accel.z
+      "加速度 Z:" + accel.z,
+      "倍率:"+d,
+      "加速度2D X:" + accel2d.x,
+      "加速度2D Y:" + accel2d.y
     ];
     $("#acc").html(text.join("<br>"));
   }, deviceorientation = function(e){
