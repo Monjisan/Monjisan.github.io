@@ -82,8 +82,9 @@ exec = function(src){eval(src);};
     window.addEventListener("deviceorientation", deviceorientation);
   }, east = new vec3(), north = new vec3();
   var devicemotion = function(e){
-    accel = (new vec3(e.acceleration)).scale(0.01);
-    accel2d = new vector(accel.dot(east), accel.dot(north));
+    accel = new vec3(e.acceleration);
+    var scale = 0.0001
+    accel2d = new vector(accel.scale(d).dot(east), accel.scale(d).dot(north));
     // new vec3(e.accelerationIncludingGravity);
     var text = [
       "加速度 X:" + accel.x,
