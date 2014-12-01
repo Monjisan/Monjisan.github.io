@@ -7,7 +7,7 @@ var fixed = true;
 var move = new vector();
 var markerMove = false;
 var nearRail;
-var accel = null;
+var accel = new vec3(), accel2d = new vector();
 
 
 // debug variable
@@ -21,6 +21,8 @@ exec = function(src){eval(src);};
     console.error(e);
   };
 
+
+
   // get GPS sector
   var call = function(){
     navigator.geolocation.getCurrentPosition(cb, error);
@@ -33,7 +35,7 @@ exec = function(src){eval(src);};
       pos = new vector(position.coords.longitude, position.coords.latitude);
       pos = pos.add(move);
     }
-
+    pos = pos.add(accel2d);
     // make text
     var text = [
       "緯度：" + pos.y,
@@ -44,7 +46,6 @@ exec = function(src){eval(src);};
       "方角：" + position.coords.heading,
       "速度：" + position.coords.speed
     ];
-
     // update position
     var c = pos.latLng();
     if(fixed){ map.setCenter(c); }
@@ -72,16 +73,40 @@ exec = function(src){eval(src);};
   };
 
 
+
+
+
   // get acceleration sector
+  var deviceCall = function(){
+    window.addEventListener("devicemotion", devicemotion);
+    window.addEventListener("deviceorientation", deviceorientation);
+  }, east = new vec3(), north = new vec3();
   var devicemotion = function(e){
-    accel = e.acceleration;
+    accel = new vec3(e.acceleration);
+    accel2d = new vector(accel.dot(east), aceel.dot(north));
+    // new vec3(e.accelerationIncludingGravity);
     var text = [
       "加速度 X:" + accel.x,
       "加速度 Y:" + accel.y,
       "加速度 Z:" + accel.z
     ];
     $("#acc").html(text.join("<br>"));
+  }, deviceorientation = function(e){
+    var a = MyMath.dir(e.alpha), b = MyMath.dir(-e.beta), c = MyMath.dir(-e.gamma);
+    north = new vec3(
+          Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
+          Math.cos(a)*Math.cos(b),
+          Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
+    );
+    a = MyMath.dir(e.alpha+90);
+    east = new vec3(
+          Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
+          Math.cos(a)*Math.cos(b),
+          Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
+    );
   };
+
+
 
 
 
@@ -158,28 +183,14 @@ exec = function(src){eval(src);};
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map($("#map_canvas")[0], mapOptions);
-
   // set map object
-  /*
-  var circleOptions = {
-    strokeColor: "#555599",
-    strokeOpacity: 0.8,
-    strokeWeight: 1,
-    fillColor: "#9999FF",
-    fillOpacity: 0.35,
-    map: map,
-    center: defPos,
-    radius: 5
-  };
-  center = new google.maps.Circle(circleOptions);
-  */
+  // set position marker
   var markerOptions = {
     map: map,
     position: defPos,
     draggable: false
   };
   center = new google.maps.Marker(markerOptions);
-  
   // set near rail marker
   var nmOptions = {
     map: map,
@@ -187,7 +198,6 @@ exec = function(src){eval(src);};
     draggable: false
   };
   nearRail = new google.maps.Marker(nmOptions);
-
   // set loaded field
   var fieldOptions = {
     strokeColor: "#FF0011",
@@ -208,7 +218,7 @@ exec = function(src){eval(src);};
   // call main thread
   if (navigator.geolocation) {
     call();
-    window.addEventListener("devicemotion", devicemotion);
+    deviceCall();
     setTimeout(getLine,500);
     $("#fixed").click(function(){
       $(this).text((fixed=!fixed)?"移動開始":"現在地固定");
