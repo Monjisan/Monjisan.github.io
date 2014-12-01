@@ -83,7 +83,7 @@ exec = function(src){eval(src);};
   }, east = new vec3(), north = new vec3();
   var devicemotion = function(e){
     accel = new vec3(e.acceleration);
-    var scale = 0.0001
+    var scale = 0.00001
     accel2d = new vector(accel.scale(d).dot(east), accel.scale(d).dot(north));
     // new vec3(e.accelerationIncludingGravity);
     var text = [
