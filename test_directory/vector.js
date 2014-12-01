@@ -114,7 +114,7 @@ line.prototype = {
   }
 };
 
-// MY Mathmatics object
+// MY Mathematics object
 MyMath = {
   dir:function(d){
     return d*Math.PI/180.0;

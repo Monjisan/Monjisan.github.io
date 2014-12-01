@@ -83,7 +83,7 @@ exec = function(src){eval(src);};
   }, east = new vec3(), north = new vec3();
   var devicemotion = function(e){
     accel = new vec3(e.acceleration);
-    accel2d = new vector(accel.dot(east), aceel.dot(north));
+    accel2d = new vector(accel.dot(east), accel.dot(north));
     // new vec3(e.accelerationIncludingGravity);
     var text = [
       "加速度 X:" + accel.x,
