@@ -1,4 +1,4 @@
-﻿var vector, line, vec3, MyMath;
+﻿var vector, line, vec3, matrix, MyMath;
 (function(num, undef){
 
 // vector object
@@ -112,6 +112,67 @@ line.prototype = {
   center:function(){
     return this.p0.add(this.p1).scale(0.5);
   }
+};
+
+
+
+// matrix object
+matrix = function(arr){
+  if(arr){
+    if(arr.length===3&&(arr[0]&&arr[0].length===3)&&(arr[1]&&arr[1].length===3)&&(arr[1]&&arr[1].length===3)){
+      this.a = arr;
+    }else if(typeof arr===num && arguments.length===3){
+      this.a = matrix.rotateZ(arguments[2]).dot(matrix.rotateY(arguments[1])).dot(matrix.rotateX(arguments[0]));
+    }else if(arr.a.length===3){
+      this.a = new Array(3);
+      for(var i=0;i<3;++i){
+        this.a[i] = new Array(3);
+        for(var j=0;j<3;++j){
+          this[i][j] = arr.a[i][j];
+        }
+      }
+    }
+  }else{
+    this.a = new Array(3);
+    for(var i=0;i<3;++i){
+      this.a[i] = new Array(3);
+      for(var j=0;j<3;++j){
+        this.a[i][j] = 0;
+      }
+    }
+  }
+};
+matrix.prototype = {
+  dot:function(m){
+    var ret = new matrix();
+    for(var i=0;i<3;++i){
+      for(var j=0;j<3;++j){
+        for(var k=0;k<3;++k){
+          ret.a[i][j] += this.a[i][k] * m.a[k][j];
+        }
+      }
+    }
+    return ret;
+  },
+  dotv:function(v){
+    var ret = new vec3();
+    ret.x = this.a[0][0]*v.x + this.a[0][1]*v.y + this.a[0][2]*v.z;
+    ret.y = this.a[1][0]*v.x + this.a[1][1]*v.y + this.a[1][2]*v.z;
+    ret.z = this.a[2][0]*v.x + this.a[2][1]*v.y + this.a[2][2]*v.z;
+    return ret;
+  }
+};
+matrix.rotateX = function(t){
+  return new matrix([[1,0,0],[0,Math.cos(t),-Math.sin(t)],[0,Math.sin(t),Math.cos(t)]]);
+};
+matrix.rotateY = function(t){
+  return new matrix([[Math.cos(t),0,Math.sin(t)],[0,1,0],[-Math.sin(t),0,Math.cos(t)]]);
+};
+matrix.rotateZ = function(t){
+  return new matrix([[Math.cos(t),-Math.sin(t),0],[Math.sin(t),Math.cos(t),0],[0,0,1]]);
+};
+matrix.e = function(){
+  return new matrix([[1,0,0],[0,1,0],[0,0,1]]);
 };
 
 // MY Mathematics object

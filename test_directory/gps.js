@@ -77,14 +77,22 @@ exec = function(src){eval(src);};
 
 
   // get acceleration sector
+  var lowpass = new vec3();
   var deviceCall = function(){
     window.addEventListener("devicemotion", devicemotion);
     window.addEventListener("deviceorientation", deviceorientation);
   }, east = new vec3(), north = new vec3();
+  var direction = [0,0,0];
   var devicemotion = function(e){
+    // get acceleration
     accel = new vec3(e.acceleration);
+    lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
+    accel = accel.sub(lowpass);
+
     var scale = 0.0001
-    accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
+    var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
+    accel2d = new vector(tmp.x, tmp.y).scale(scale);
+    // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
     // new vec3(e.accelerationIncludingGravity);
     var text = [
       "加速度 X:" + accel.x,
@@ -97,7 +105,8 @@ exec = function(src){eval(src);};
     $("#acc").html(text.join("<br>"));
   }, deviceorientation = function(e){
     var a = MyMath.dir(e.alpha), b = MyMath.dir(-e.beta), c = MyMath.dir(-e.gamma);
-    north = new vec3(
+    direction = [-a,b,c];
+    /*north = new vec3(
           Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
           Math.cos(a)*Math.cos(b),
           Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
@@ -107,7 +116,7 @@ exec = function(src){eval(src);};
           Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
           Math.cos(a)*Math.cos(b),
           Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
-    );
+    );*/
   };
 
 
