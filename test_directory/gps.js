@@ -85,12 +85,12 @@ exec = function(src){eval(src);};
   var direction = [0,0,0];
   var devicemotion = function(e){
     // get acceleration
-    accel = (new vec3(e.acceleration)).sub(new vec3(e.accelerationIncludingGravity));
+    accel = (new vec3(e.acceleration)).add(new vec3(e.accelerationIncludingGravity));
     lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     accel = accel.sub(lowpass);
 
     var scale = 0.0001
-    //var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
+    var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
     //accel2d = new vector(tmp.x, tmp.y).scale(scale);
     // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
     // ;
