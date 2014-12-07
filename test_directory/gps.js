@@ -87,7 +87,7 @@ exec = function(src){eval(src);};
     // get acceleration
     accel = new vec3(e.acceleration);
     lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
-    accel = accel.sub(lowpass);
+    //accel = accel.sub(lowpass);
 
     var scale = 0.0001
     var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
