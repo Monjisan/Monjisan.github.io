@@ -98,6 +98,9 @@ exec = function(src){eval(src);};
       "加速度 X:" + accel.x,
       "加速度 Y:" + accel.y,
       "加速度 Z:" + accel.z,
+      "GX:" + e.accelerationIncludingGravity.x,
+      "GY:" + e.accelerationIncludingGravity.y,
+      "GZ:" + e.accelerationIncludingGravity.z,
       "倍率:" + scale,
       "加速度2D X:" + accel2d.x,
       "加速度2D Y:" + accel2d.y
