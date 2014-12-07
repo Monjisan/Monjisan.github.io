@@ -85,7 +85,7 @@ exec = function(src){eval(src);};
   var direction = [0,0,0];
   var devicemotion = function(e){
     // get acceleration
-    accel = (new vec3(e.acceleration)).sub(new vec3(e.accelerationIncludingGravity));
+    accel = new vec3(e.acceleration);//(new vec3(e.acceleration)).sub(new vec3(e.accelerationIncludingGravity));
     lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     accel = accel.sub(lowpass);
 
@@ -98,6 +98,9 @@ exec = function(src){eval(src);};
       "加速度 X:" + accel.x,
       "加速度 Y:" + accel.y,
       "加速度 Z:" + accel.z,
+      "aX:" + e.acceleration.x,
+      "aY:" + e.acceleration.y,
+      "aZ:" + e.acceleration.z,
       "GX:" + e.accelerationIncludingGravity.x,
       "GY:" + e.accelerationIncludingGravity.y,
       "GZ:" + e.accelerationIncludingGravity.z,
