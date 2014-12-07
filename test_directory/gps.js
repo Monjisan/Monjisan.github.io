@@ -86,7 +86,7 @@ exec = function(src){eval(src);};
   var devicemotion = function(e){
     // get acceleration
     accel = new vec3(e.acceleration);
-    lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
+    //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     //accel = accel.sub(lowpass);
 
     var scale = 0.0001
