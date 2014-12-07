@@ -90,7 +90,7 @@ exec = function(src){eval(src);};
     accel = accel.sub(lowpass);
 
     var scale = 0.0001
-    var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
+    //var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
     //accel2d = new vector(tmp.x, tmp.y).scale(scale);
     // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
     // ;

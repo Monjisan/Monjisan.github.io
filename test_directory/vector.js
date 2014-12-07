@@ -118,11 +118,11 @@ line.prototype = {
 
 // matrix object
 matrix = function(arr){
-  if(arr){
+  if(arr!==undef){
     if(arr.length===3&&(arr[0]&&arr[0].length===3)&&(arr[1]&&arr[1].length===3)&&(arr[1]&&arr[1].length===3)){
       this.a = arr;
     }else if(typeof arr===num && arguments.length===3){
-      this.a = matrix.rotateZ(arguments[2]).dot(matrix.rotateY(arguments[1])).dot(matrix.rotateX(arguments[0]));
+      this.a = matrix.rotateZ(arguments[2]).dot(matrix.rotateY(arguments[1])).dot(matrix.rotateX(arguments[0])).a;
     }else if(arr.a.length===3){
       this.a = new Array(3);
       for(var i=0;i<3;++i){
