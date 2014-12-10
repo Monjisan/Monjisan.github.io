@@ -143,7 +143,7 @@ function initialize(){
     var dir = direction.map(MyMath.dir);
     var tmp = (new matrix(-dir[1], -dir[2], -dir[0])).dotv(accel);
     acc.push(tmp); acc.shift();
-    accel2d = acc.reduce(function(a,b){ return a.add(b); },new vec2()).scale(1/acc.length);//new vector(tmp.x, tmp.y).scale(scale);
+    accel2d = acc.reduce(function(a,b){ return a.add(b); },new vec3()).scale(1/acc.length);//new vector(tmp.x, tmp.y).scale(scale);
 
     // set information
     information.accel  = e;
