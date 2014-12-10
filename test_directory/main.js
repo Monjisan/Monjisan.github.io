@@ -138,7 +138,7 @@ function initialize(){
     //accel.z = 0;
 
     var scale = 0.0001;
-    accel = new vec3(0,1,2);
+    //accel = new vec3(0,1,2);
     var dir = direction.map(MyMath.dir);
     var tmp = (new matrix(-dir[1], -dir[2], -dir[0])).dotv(accel);
     accel2d = tmp;//new vector(tmp.x, tmp.y).scale(scale);
