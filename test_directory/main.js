@@ -28,7 +28,7 @@ function initialize(){
     accel_:{},
     direction:[],
     velocity:{},
-    position:{}
+    position:{},
     data:""
   };
   // function
