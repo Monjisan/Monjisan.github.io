@@ -117,6 +117,8 @@ function initialize(){
     window.addEventListener("deviceorientation", deviceorientation);
   }, east = new vec3(), north = new vec3();
   var direction = [0,0,0];
+  var velocity = new vec3();
+  var position = new vec3();
   var devicemotion = function(e){
     var accel, accel2d;
     // get acceleration
@@ -124,6 +126,8 @@ function initialize(){
     //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     //accel = accel.sub(lowpass);
     //accel.z = 0;
+    velocity = velocity.add(accel);
+    position = positoin.add(velocity);
 
     var scale = 0.0001;
     accel = new vec3(0,1,2);
@@ -167,7 +171,6 @@ function initialize(){
   },
   setLine = function(res){
     // reset map objects
-    $("#xml").text(res);
     if(path)for(var i=0;i<path.length;++i){
       path[i].setMap(null);
     }
