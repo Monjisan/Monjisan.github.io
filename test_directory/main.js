@@ -14,7 +14,7 @@ var information;
 
 function initialize(){
   var error = function(e){
-    $("#error").html('Error '+(e||''));
+    $("#error").append('Error '+(e||''));
     console.error(e);
   };
 
@@ -58,7 +58,8 @@ function initialize(){
       "    :" + information.direction[1],
       "    :" + information.direction[2],
       "加速度2D X:" + information.accel_.accel2d.x,
-      "加速度2D Y:" + information.accel_.accel2d.y
+      "加速度2D Y:" + information.accel_.accel2d.y,
+      "加速度2D Z:" + information.accel_.accel2d.z
     ];
     $("#acc").html(text.join("<br>"));
   };
