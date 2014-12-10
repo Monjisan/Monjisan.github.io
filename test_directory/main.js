@@ -7,20 +7,52 @@ var fixed = true;
 var move = new vector();
 var markerMove = false;
 var nearRail;
-var accel = new vec3(), accel2d = new vector();
-
 
 // debug variable
-var exec;
+var information;
+
+
 function initialize(){
-
-  //debug function
-exec = function(src){eval(src);};
-  var error = function(e){
-    $("#error").html('Error'+(e||""));
-    console.error(e);
+  // show information sector
+  // informations
+  //var
+  information = {
+    gps:{},
+    gps_:{},
+    accel:{},
+    accel_:{}
   };
-
+  // function
+  var showInformation = function(){
+    // show
+    var text = [
+      "緯度：" + information.gps_.y,
+      "経度：" + information.gps_.x,
+      "高度：" + information.gps.altitude,
+      "緯度/経度の誤差：" + information.gps.accuracy,
+      "高度の誤差：" + information.gps.altitudeAccuracy,
+      "方角：" + information.gps.heading,
+      "速度：" + information.gps.speed
+    ];
+    $("#gps").html(text.join("<br>"));
+    
+    // show accelaration
+    var text = [
+      "加速度 X:" + information.accel_.accel.x,
+      "加速度 Y:" + information.accel_.accel.y,
+      "加速度 Z:" + information.accel_.accel.z,
+      "aX:" + information.accel.acceleration.x,
+      "aY:" + information.accel.acceleration.y,
+      "aZ:" + information.accel.acceleration.z,
+      "GX:" + information.accel.accelerationIncludingGravity.x,
+      "GY:" + information.accel.accelerationIncludingGravity.y,
+      "GZ:" + information.accel.accelerationIncludingGravity.z,
+      "倍率:" + scale,
+      "加速度2D X:" + information.accel_.accel2d.x,
+      "加速度2D Y:" + information.accel_.accel2d.y
+    ];
+    $("#acc").html(text.join("<br>"));
+  };
 
 
   // get GPS sector
@@ -35,17 +67,10 @@ exec = function(src){eval(src);};
       pos = new vector(position.coords.longitude, position.coords.latitude);
       pos = pos.add(move);
     }
-    pos = pos.add(accel2d);
-    // make text
-    var text = [
-      "緯度：" + pos.y,
-      "経度：" + pos.x,
-      "高度：" + position.coords.altitude,
-      "緯度/経度の誤差：" + position.coords.accuracy,
-      "高度の誤差：" + position.coords.altitudeAccuracy,
-      "方角：" + position.coords.heading,
-      "速度：" + position.coords.speed
-    ];
+    // set information
+    information.gps_ = pos;
+    information.gps  = position.coords;
+    
     // update position
     var c = pos.latLng();
     if(fixed){ map.setCenter(c); }
@@ -66,7 +91,6 @@ exec = function(src){eval(src);};
     }
     nearRail.setPosition(nearRailPos.latLng());
 
-    $("#gps").html(text.join("<br>"));
 
     // set next action
     setTimeout(call, 1000);
@@ -84,32 +108,23 @@ exec = function(src){eval(src);};
   }, east = new vec3(), north = new vec3();
   var direction = [0,0,0];
   var devicemotion = function(e){
+    var accel, accel2d;
     // get acceleration
     accel = new vec3(e.acceleration);//(new vec3(e.acceleration)).sub(new vec3(e.accelerationIncludingGravity));
-    lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
-    accel = accel.sub(lowpass);
-    accel.z = 0;
+    //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
+    //accel = accel.sub(lowpass);
+    //accel.z = 0;
 
     var scale = 0.0001
+    accel = new vec3(0,1,2);
     var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
     accel2d = new vector(tmp.x, tmp.y).scale(scale);
     // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
     // ;
-    var text = [
-      "加速度 X:" + accel.x,
-      "加速度 Y:" + accel.y,
-      "加速度 Z:" + accel.z,
-      "aX:" + e.acceleration.x,
-      "aY:" + e.acceleration.y,
-      "aZ:" + e.acceleration.z,
-      "GX:" + e.accelerationIncludingGravity.x,
-      "GY:" + e.accelerationIncludingGravity.y,
-      "GZ:" + e.accelerationIncludingGravity.z,
-      "倍率:" + scale,
-      "加速度2D X:" + accel2d.x,
-      "加速度2D Y:" + accel2d.y
-    ];
-    $("#acc").html(text.join("<br>"));
+
+    // set information
+    information.accel  = e;
+    information.accel_ = {accel:accel, accel2d:accel2d};
   }, deviceorientation = function(e){
     var a = MyMath.dir(e.alpha), b = MyMath.dir(-e.beta), c = MyMath.dir(-e.gamma);
     direction = [-a,b,c];
@@ -237,9 +252,13 @@ exec = function(src){eval(src);};
 
   // call main thread
   if (navigator.geolocation) {
-    call();
-    deviceCall();
+    call();  // call GPS
+    deviceCall();  // call device motion
+    setInterval(showInformation, 1000/30); // call show function
     setTimeout(getLine,500);
+
+
+    // set click events
     $("#fixed").click(function(){
       $(this).text((fixed=!fixed)?"移動開始":"現在地固定");
     });
@@ -248,7 +267,7 @@ exec = function(src){eval(src);};
       center.setDraggable(markerMove);
     });
   } else {
-    error();
+    error("This device cannot use GPS.");
   }
 
 }
