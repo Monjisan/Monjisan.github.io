@@ -13,6 +13,11 @@ var information;
 
 
 function initialize(){
+  var error = function(e){
+    $("#error").html('Error '+(e||''));
+    console.error(e);
+  };
+
   // show information sector
   // informations
   //var
