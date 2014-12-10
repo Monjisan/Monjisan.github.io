@@ -124,30 +124,18 @@ function initialize(){
     //accel = accel.sub(lowpass);
     //accel.z = 0;
 
-    var scale = 0.0001
+    var scale = 0.0001;
     accel = new vec3(0,1,2);
-    var tmp = (new matrix(-direction[1], -direction[2], -direction[0])).dotv(accel);
-    accel2d = new vector(tmp.x, tmp.y).scale(scale);
-    // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
-    // ;
+    var dir = direction.map(MyMath.dir);
+    var tmp = (new matrix(-dir[1], -dir[2], -dir[0])).dotv(accel);
+    accel2d = tmp;//new vector(tmp.x, tmp.y).scale(scale);
 
     // set information
     information.accel  = e;
     information.accel_ = {accel:accel, accel2d:accel2d};
   }, deviceorientation = function(e){
-    var a = MyMath.dir(e.alpha), b = MyMath.dir(e.beta), c = MyMath.dir(e.gamma);
+    var a = e.alpha, b = e.beta, c = e.gamma;
     information.direction = direction = [a,b,c];
-    /*north = new vec3(
-          Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
-          Math.cos(a)*Math.cos(b),
-          Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
-    );
-    a = MyMath.dir(e.alpha+90);
-    east = new vec3(
-          Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
-          Math.cos(a)*Math.cos(b),
-          Math.sin(a)*Math.sin(c) + Math.cos(a)*Math.sin(b) *Math.cos(c)
-    );*/
   };
 
 
