@@ -25,7 +25,8 @@ function initialize(){
     gps:{},
     gps_:{},
     accel:{},
-    accel_:{}
+    accel_:{},
+    direction:[]
   };
   // function
   var showInformation = function(){
@@ -53,6 +54,7 @@ function initialize(){
       "GY:" + information.accel.accelerationIncludingGravity.y,
       "GZ:" + information.accel.accelerationIncludingGravity.z,
       //"倍率:" + scale,
+      "角度:" + information.direction.join()
       "加速度2D X:" + information.accel_.accel2d.x,
       "加速度2D Y:" + information.accel_.accel2d.y
     ];
@@ -122,7 +124,7 @@ function initialize(){
 
     var scale = 0.0001
     accel = new vec3(0,1,2);
-    var tmp = (new matrix(direction[1],direction[2],direction[0])).dotv(accel);
+    var tmp = (new matrix(-direction[1], -direction[2], -direction[0])).dotv(accel);
     accel2d = new vector(tmp.x, tmp.y).scale(scale);
     // accel2d = new vector(accel.scale(scale).dot(east), accel.scale(scale).dot(north));
     // ;
@@ -131,8 +133,8 @@ function initialize(){
     information.accel  = e;
     information.accel_ = {accel:accel, accel2d:accel2d};
   }, deviceorientation = function(e){
-    var a = MyMath.dir(e.alpha), b = MyMath.dir(-e.beta), c = MyMath.dir(-e.gamma);
-    direction = [-a,b,c];
+    var a = MyMath.dir(e.alpha), b = MyMath.dir(e.beta), c = MyMath.dir(e.gamma);
+    information.direction = direction = [a,b,c];
     /*north = new vec3(
           Math.sin(a)*Math.cos(c) - Math.cos(a)*Math.sin(b) *Math.sin(c),
           Math.cos(a)*Math.cos(b),
