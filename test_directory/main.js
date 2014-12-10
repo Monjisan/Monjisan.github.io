@@ -26,7 +26,10 @@ function initialize(){
     gps_:{},
     accel:{},
     accel_:{},
-    direction:[]
+    direction:[],
+    velocity:{},
+    position:{}
+    data:""
   };
   // function
   var showInformation = function(){
@@ -59,7 +62,14 @@ function initialize(){
       "    :" + information.direction[2],
       "加速度2D X:" + information.accel_.accel2d.x,
       "加速度2D Y:" + information.accel_.accel2d.y,
-      "加速度2D Z:" + information.accel_.accel2d.z
+      "加速度2D Z:" + information.accel_.accel2d.z,
+      "速度 X:" + information.velocity.x,
+      "速度 X:" + information.velocity.y,
+      "速度 X:" + information.velocity.z,
+      "座標 X:" + information.position.x,
+      "座標 X:" + information.position.y,
+      "座標 X:" + information.position.z,
+      ""
     ];
     $("#acc").html(text.join("<br>"));
   };
@@ -126,8 +136,8 @@ function initialize(){
     //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     //accel = accel.sub(lowpass);
     //accel.z = 0;
-    velocity = velocity.add(accel);
-    position = positoin.add(velocity);
+    information.velocity = velocity = velocity.add(accel);
+    information.position = position = positoin.add(velocity);
 
     var scale = 0.0001;
     accel = new vec3(0,1,2);
