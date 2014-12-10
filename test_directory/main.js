@@ -64,11 +64,11 @@ function initialize(){
       "加速度2D Y:" + information.accel_.accel2d.y,
       "加速度2D Z:" + information.accel_.accel2d.z,
       "速度 X:" + information.velocity.x,
-      "速度 X:" + information.velocity.y,
-      "速度 X:" + information.velocity.z,
+      "速度 Y:" + information.velocity.y,
+      "速度 Z:" + information.velocity.z,
       "座標 X:" + information.position.x,
-      "座標 X:" + information.position.y,
-      "座標 X:" + information.position.z,
+      "座標 Y:" + information.position.y,
+      "座標 Z:" + information.position.z,
       ""
     ];
     $("#acc").html(text.join("<br>"));
@@ -136,8 +136,6 @@ function initialize(){
     //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
     //accel = accel.sub(lowpass);
     //accel.z = 0;
-    information.velocity = velocity = velocity.add(accel);
-    information.position = position = position.add(velocity);
 
     var scale = 0.0001;
     accel = new vec3(0,1,2);
@@ -148,6 +146,8 @@ function initialize(){
     // set information
     information.accel  = e;
     information.accel_ = {accel:accel, accel2d:accel2d};
+    information.velocity = velocity = velocity.add(accel2d);
+    information.position = position = position.add(velocity);
   }, deviceorientation = function(e){
     var a = e.alpha, b = e.beta, c = e.gamma;
     information.direction = direction = [a,b,c];
