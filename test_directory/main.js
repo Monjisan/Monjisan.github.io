@@ -130,6 +130,7 @@ function initialize(){
   var velocity = new vec3();
   var position = new vec3();
   var acc = [new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3()];
+  var accm = [new vec3(),new vec3(),new vec3()];
   var devicemotion = function(e){
     var accel, accel2d;
     // get acceleration
@@ -142,8 +143,10 @@ function initialize(){
     //accel = new vec3(0,1,2);
     var dir = direction.map(MyMath.dir);
     var tmp = (new matrix(-dir[1], -dir[2], -dir[0])).dotv(accel);
-    acc.push(tmp); acc.shift();
-    accel2d = acc.reduce(function(a,b){ return a.add(b); },new vec3()).scale(1/acc.length);//new vector(tmp.x, tmp.y).scale(scale);
+    acc.push(tmp);  acc.shift();
+    accm.push(tmp); accm.shift();
+    accel2d = accm.reduce(function(a,b){ return a.add(b); }, new vec3()).scale(1/accm.length)
+          .sub(acc.reduce(function(a,b){ return a.add(b); }, new vec3()).scale(1/acc .length));//new vector(tmp.x, tmp.y).scale(scale);
 
     // set information
     information.accel  = e;
