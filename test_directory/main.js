@@ -22,7 +22,7 @@ function initialize(){
   // informations
   //var
   information = {
-    gps:,
+    gps:{},
     gps_:{},
     accel:{},
     accel_:{},
