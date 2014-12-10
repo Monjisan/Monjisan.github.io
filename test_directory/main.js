@@ -277,6 +277,9 @@ function initialize(){
       $(this).text((markerMove=!markerMove)?"マーカー固定":"マーカー移動開始");
       center.setDraggable(markerMove);
     });
+    $("#reset").click(function(){
+      position = velocity = new vec3();
+    });
   } else {
     error("This device cannot use GPS.");
   }
