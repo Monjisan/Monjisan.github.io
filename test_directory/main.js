@@ -22,7 +22,7 @@ function initialize(){
   // informations
   //var
   information = {
-    gps:{},
+    gps:,
     gps_:{},
     accel:{},
     accel_:{},
@@ -137,7 +137,7 @@ function initialize(){
     //accel = accel.sub(lowpass);
     //accel.z = 0;
     information.velocity = velocity = velocity.add(accel);
-    information.position = position = positoin.add(velocity);
+    information.position = position = position.add(velocity);
 
     var scale = 0.0001;
     accel = new vec3(0,1,2);
