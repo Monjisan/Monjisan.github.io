@@ -52,7 +52,7 @@ function initialize(){
       "GX:" + information.accel.accelerationIncludingGravity.x,
       "GY:" + information.accel.accelerationIncludingGravity.y,
       "GZ:" + information.accel.accelerationIncludingGravity.z,
-      "倍率:" + scale,
+      //"倍率:" + scale,
       "加速度2D X:" + information.accel_.accel2d.x,
       "加速度2D Y:" + information.accel_.accel2d.y
     ];
