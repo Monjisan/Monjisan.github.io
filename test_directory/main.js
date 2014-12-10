@@ -54,7 +54,9 @@ function initialize(){
       "GY:" + information.accel.accelerationIncludingGravity.y,
       "GZ:" + information.accel.accelerationIncludingGravity.z,
       //"倍率:" + scale,
-      "角度:" + information.direction.join(),
+      "角度:" + information.direction[0],
+      "    :" + information.direction[1],
+      "    :" + information.direction[2],
       "加速度2D X:" + information.accel_.accel2d.x,
       "加速度2D Y:" + information.accel_.accel2d.y
     ];
