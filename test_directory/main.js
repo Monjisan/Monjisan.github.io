@@ -14,7 +14,7 @@ var information;
 
 function initialize(){
   var error = function(e){
-    $("#error").append('Error '+(e||''));
+    $("#error").append('<div>Error '+(e||'')+'</div>');
     console.error(e);
   };
 
@@ -167,11 +167,13 @@ function initialize(){
       railTag = "tag[k=railway][v=rail]",
       highwayTag = "tag[k=highway]",
   streetError = function(){
-    $("#error").append('<br>StreetMapAPI Error');
+    error('StreetMapAPI error');
   },
   getLine = function(){
-    if(getpos.dist(pos) >= d/2){
-      getpos = pos.copy();
+    var dist = getpos.sub(pos), dl = Math.max(Math.abs(dist.x), Math.abs(dist.y));
+    if(dl >= d/2){
+      if(dl < d){ dist = dist.scale(d/dl); }
+      getpos = pos.add(dist);
       console.log("get new street map");
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
