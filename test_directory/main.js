@@ -176,6 +176,7 @@ try{
       if(dl < d){ dist = dist.scale(d/dl); }
       getpos = pos.add(dist);
       console.log("get new street map");
+error("test");
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
         "0.6/map?bbox="+
