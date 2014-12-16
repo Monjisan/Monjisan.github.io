@@ -171,10 +171,10 @@ function initialize(){
   },
   getLine = function(){
 try{
-    var dist = getpos.sub(pos), dl = Math.max(Math.abs(dist.x), Math.abs(dist.y));
+    var dist = pos.sub(getpos), dl = Math.max(Math.abs(dist.x), Math.abs(dist.y));
     if(dl >= d/2){
       if(dl < d){ dist = dist.scale(d/dl); }
-      getpos = pos.add(dist);
+      getpos = getpos.add(dist);
       console.log("get new street map");
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
@@ -192,7 +192,6 @@ try{
   },
   setLine = function(res){
     // reset map objects
-error("test");
     if(path)for(var i=0;i<path.length;++i){
       path[i].setMap(null);
     }
@@ -200,7 +199,6 @@ error("test");
     roadMap.rail = [];
     roadMap.way  = [];
     
-error("test2");
     // get and set way lines
     $(res).find("way").filter(function(){
       return $(this)
@@ -230,7 +228,6 @@ error("test2");
       p.setMap(map);
     });
     field.setBounds(new google.maps.LatLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
-error("test3");
   };
 
 
