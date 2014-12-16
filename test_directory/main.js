@@ -184,7 +184,6 @@ try{
         success:setLine
         ,error:streetError
       });
-error("test");
     }
 }catch(e){
   error(e);
@@ -193,6 +192,7 @@ error("test");
   },
   setLine = function(res){
     // reset map objects
+error("test");
     if(path)for(var i=0;i<path.length;++i){
       path[i].setMap(null);
     }
@@ -200,6 +200,7 @@ error("test");
     roadMap.rail = [];
     roadMap.way  = [];
     
+error("test2");
     // get and set way lines
     $(res).find("way").filter(function(){
       return $(this)
@@ -229,6 +230,7 @@ error("test");
       p.setMap(map);
     });
     field.setBounds(new google.maps.LatLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
+error("test3");
   };
 
 
