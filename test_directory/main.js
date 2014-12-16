@@ -170,6 +170,7 @@ function initialize(){
     error('StreetMapAPI error');
   },
   getLine = function(){
+try{
     var dist = getpos.sub(pos), dl = Math.max(Math.abs(dist.x), Math.abs(dist.y));
     if(dl >= d/2){
       if(dl < d){ dist = dist.scale(d/dl); }
@@ -184,6 +185,9 @@ function initialize(){
         ,error:streetError
       });
     }
+}catch(e){
+  error(e);
+}
     setTimeout(getLine, 10000);
   },
   setLine = function(res){
