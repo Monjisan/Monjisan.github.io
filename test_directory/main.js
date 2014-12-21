@@ -166,6 +166,7 @@ function initialize(){
   var path, d = 0.005, dv = new vector(d,d),
       railTag = "tag[k=railway][v=rail]",
       highwayTag = "tag[k=highway]",
+      stationTag = "tag[k=station]",
   streetError = function(){
     error('StreetMapAPI error');
   },
@@ -202,12 +203,12 @@ try{
     // get and set way lines
     $(res).find("way").filter(function(){
       return $(this)
-           .find(railTag/*+","+highwayTag*/)
+           .find([railTag/*,highwayTag*/,stationTag].join())
            .length>0;
     }).each(function(){
       var nd=[];
-      var isRail = $(this).find(railTag).length>0
-      var color=isRail?"#000":"#666";
+      var isRail = $(this).find(railTag).length>0, isStation = $(this).find(stationTag).length>0;
+      var color=isRail?"#000":isStation?"#f00":"#666";
       $(this).find("nd").each(function(){
         var ndd=$(res).find("node[id="+
           $(this).attr("ref")+
