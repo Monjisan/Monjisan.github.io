@@ -46,7 +46,8 @@ function initialize(){
     $("#gps").html(text.join("<br>"));
     
     // show accelaration
-    var text = [
+    var text;
+    try{text = [
       "加速度 X:" + information.accel_.accel.x,
       "加速度 Y:" + information.accel_.accel.y,
       "加速度 Z:" + information.accel_.accel.z,
@@ -70,7 +71,7 @@ function initialize(){
       "座標 Y:" + information.position.y,
       "座標 Z:" + information.position.z,
       ""
-    ];
+    ];}catch(e){}
     $("#acc").html(text.join("<br>"));
   };
 
@@ -166,7 +167,7 @@ function initialize(){
   var path, d = 0.005, dv = new vector(d,d),
       railTag = "tag[k=railway][v=rail]",
       highwayTag = "tag[k=highway]",
-      stationTag = "tag[k=station]",
+      stationTag = "tag[k=railway][v=station]",
   streetError = function(){
     error('StreetMapAPI error');
   },
