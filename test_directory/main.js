@@ -167,7 +167,8 @@ function initialize(){
   var path, d = 0.005, dv = new vector(d,d),
       railTag = "tag[k=railway][v=rail]",
       highwayTag = "tag[k=highway]",
-      stationTag = "tag[k=railway][v=station]",
+      stationTag = "tag[k=building][v=train_station]",
+//building train_station
   streetError = function(){
     error('StreetMapAPI error');
   },
@@ -278,7 +279,7 @@ try{
   if (navigator.geolocation) {
     call();  // call GPS
     deviceCall();  // call device motion
-    setInterval(showInformation, 1000/30); // call show function
+    setInterval(showInformation, 1000/15); // call show function
     setTimeout(getLine,500);
 
 
