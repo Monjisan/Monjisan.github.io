@@ -152,8 +152,8 @@ function initialize(){
     // set information
     information.accel  = e;
     information.accel_ = {accel:accel, accel2d:accel2d};
-    information.velocity = velocity = velocity.add(accel2d);
-    information.position = position = position.add(velocity);
+    information.velocity = velocity = velocity.add(accel2d .dist()<0.1?new vec3():accel2d);
+    information.position = position = position.add(velocity.dist()<0.1?new vec3():velocity);
   }, deviceorientation = function(e){
     var a = e.alpha, b = e.beta, c = e.gamma;
     information.direction = direction = [a,b,c];
