@@ -111,6 +111,15 @@ line.prototype = {
   },
   center:function(){
     return this.p0.add(this.p1).scale(0.5);
+  },
+  nearestPos:function(v){
+    var lv = this.p1.sub(this.p0);
+    if(lv.dot(v.sub(this.p1))>0){ return this.p1; }
+    else if(lv.dot(v.sub(this.p0))<0){ return this.p0; }
+    return this.p0.add(
+      this.p1.sub(this.p0)
+        .scale(v.sub(this.p0).dot(this.p1.sub(this.p0))/Math.pow(this.p1.dist(this.p0),2))
+    );
   }
 };
 

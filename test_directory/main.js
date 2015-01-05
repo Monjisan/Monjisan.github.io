@@ -1,5 +1,5 @@
 ﻿var map, pos = new vector(), getpos = new vector();
-var roadMap = {rail:[], way:[]};
+var roadMap = {rail:[], way:[], station:[]};
 var defPos = new google.maps.LatLng(-34.397, 150.644);
 var center, field;
 var fixed = true;
@@ -99,6 +99,7 @@ function initialize(){
     /*center.setCenter(c);*/
     nearRailPos = pos;
     var near = 100.0;
+    var nearLine = null;
     for(var i=0;i<roadMap.rail.length;++i){
       var rails = roadMap.rail[i];
       for(var j=1;j<rails.length;++j){
@@ -106,9 +107,12 @@ function initialize(){
             dist = l.dist(pos);
         if(near>dist){
           near = dist;
-          nearRailPos = l.center();
+          nearLine = l;
         }
       }
+    }
+    if(nearLine !== null){
+      nearRailPos = nearLine.nearestPos(pos);
     }
     nearRail.setPosition(nearRailPos.latLng());
 
@@ -230,6 +234,7 @@ try{
       path.push(p);
       p.setMap(map);
     });
+    
     field.setBounds(new google.maps.LatLngBounds(getpos.sub(dv).latLng(), getpos.add(dv).latLng()));
   };
 
