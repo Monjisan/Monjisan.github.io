@@ -52,7 +52,7 @@
     // 距離加算
     toLatLng: function(x,y){
       var dlat = y*360.0/latLng.latitude_, dlng = x*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
-      return new LatLng(this.lat()+dlat, this.lng()+dlng);
+      return new latLng(this.lat()+dlat, this.lng()+dlng);
     },
     // 距離換算
     toXY: function(p){
