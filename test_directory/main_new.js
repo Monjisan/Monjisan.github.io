@@ -1,5 +1,10 @@
 window.addEventListener('load',function(){
   
+
+  var canvas = $('#my_map')[0];
+  var ctx = canvas.getContext('2d');
+
+
   googlemaps.makeMap($('#map_canvas')[0]);
   gps.on(function(pos, prev){
     console.log("Get Pos", pos);

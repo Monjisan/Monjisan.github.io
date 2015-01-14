@@ -1,13 +1,11 @@
 ﻿var openstreetmap = (function(){
   var ret = {
     // 更新
-    load: function(pos, callback){
-      var y = pos.lat(), x = pos.lng();
-      var d = 500.0 / 1000.0; // 半径500メートル
-      var dy = d*360.0/latLng.latitude_, dx = d*360.0/latLng.lontitude_ / Math.cos(dy*Math.PI/180)
+    load: function(pos, d, callback){
+      var lb = pos.toLatLng(-d,-d), rt = pos.toLatLng(d,d);
       $.ajax({
         url:"http://api.openstreetmap.org/api/"+
-        "0.6/map?bbox="+(x-dx)+","+(y-dy)+","+(x+dx)+","+(y+dy),
+        "0.6/map?bbox="+lb.lng()+","+lb.lat()+","+rt.lng()+","+rt.lat(),
         type:"GET",
         success:function(res){
           openstreetmap.dom = $(res);

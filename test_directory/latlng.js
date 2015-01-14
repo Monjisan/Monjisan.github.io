@@ -42,13 +42,23 @@
     },
     // 距離取得関数
     dist: function(p){
-      var y = (this.lat()-p.lat())*latLng.latitude_ /360.0;
-      var x = (this.lng()-p.lng())*latLng.lontitude_/360.0 * Math.cos((this.lat()-p.lat())*Math.PI/180);
-      return Math.sqrt(Math.pow(y,2)+Math.pow(x,2));
+      var d = this.toXY(p);
+      return Math.sqrt(Math.pow(d.y,2)+Math.pow(d.x,2));
     },
     // google maps 用変換
     toGoogle: function(){
-      return new google.maps.LatLng(this.t, this.g);
+      return new google.maps.LatLng(this.lat(), this.lng());
+    },
+    // 距離加算
+    toLatLng = function(x,y){
+      var dlat = d*360.0/latLng.latitude_, dlng = d*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
+      return new LatLng(this.lat()+dlat, this.lng()+dlng);
+    },
+    // 距離換算
+    toXY = function(p){
+      var y = (p.lat()-this.lat())*latLng.latitude_ /360.0;
+      var x = (p.lng()-this.lng())*latLng.lontitude_/360.0 * Math.cos((p.lat()+this.lat())/2*Math.PI/180);
+      return {x:x, y:y};
     }
   };
   ret.latitude_  = 40076.5;

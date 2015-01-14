@@ -5,6 +5,7 @@
     // Google maps 初期化
     makeMap: function(element){
       map = new google.maps.Map(element, {
+        center: new google.maps.LatLng(0,0),
         zoom: 18,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
