@@ -54,7 +54,8 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
-      p = pos = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      pos = pos.toLatLng(p);
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
