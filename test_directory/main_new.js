@@ -25,7 +25,7 @@
     
 if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 座標の表示
-    console.log("Get Pos", pos);
+    //console.log("Get Pos", pos);
     //$("#gps").append(pos.lat()+','+pos.lng()+'<br>');
     // 座標に移動
     if(fixed)googlemaps.center(pos.toGoogle());
@@ -54,7 +54,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
-      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      p = pos = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
@@ -69,7 +69,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     }
     // 駅描画
     ctx.strokeStyle = "#0ff";
-    ctx.fillStyle = "rgba(0,255,255,0.2)";
+    ctx.fillStyle = "rgba(0,255,255,0.7)";
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
       var p = pos.toXY(a[0]);
@@ -78,11 +78,12 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       }
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 15, 0, Math.PI*2);
+      ctx.closePath();
       ctx.stroke();
       ctx.fill();
     });
     if(station!==null){
-      $("#station").text(station[1].find("tag[k=name]").attr("v"));
+      $("#station").text("駅:"+station[1]);
     }else{
       $("#station").text("");
     }
