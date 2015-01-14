@@ -74,13 +74,13 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
       var p = pos.toXY(a[0]);
-      if(pos.dist(a[0])<200.0/1000.0){
+      if(p.dist()<1000.0/1000.0){
         station = a;
       }
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 15, 0, Math.PI*2);
       ctx.closePath();
-      ctx.stroke();
+      //ctx.stroke();
       ctx.fill();
     });
     if(station!==null){
