@@ -1,38 +1,49 @@
-window.addEventListener('load',function(){
-  // •`‰æ€”õ
+ï»¿window.addEventListener('load',function(){
+  // æç”»æº–å‚™
   var canvas = $('#my_map')[0];
   var ctx = canvas.getContext('2d');
   var width = canvas.width = canvas.height = 500;
   var w2 = width/2;
 
-  // google maps€”õ
+  // google mapsæº–å‚™
   googlemaps.makeMap($('#map_canvas')[0]);
   
-  // GPSŒÄ‚Ño‚µŠJn
+  // GPSå‘¼ã³å‡ºã—é–‹å§‹
   var d = 500.0/1000.0;
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
   gps.on(function(pos, prev){
-    // À•W‚Ì•\¦
+    // åº§æ¨™ã®è¡¨ç¤º
     console.log("Get Pos", pos);
     $("#gps").append(pos.lat()+','+pos.lng()+'<br>');
-    // À•W‚ÉˆÚ“®
+    // åº§æ¨™ã«ç§»å‹•
     if(fixed)googlemaps.center(pos.toGoogle());
     center.setPosition(pos.toGoogle());
     
-    
+    // æœ€è¿‘ç›´ç·šåˆ¤å®š
+    var nearest = null, nearDist = 1e9;
+    openstreetmap.rail.forEach(function(a,index){
+      for(var i=1;i<a.length;++i){
+        var dist = pos.distToLine(a[i],a[i-1]);
+        if(dist<nearDist){
+          nearDist = dist;
+          nearest = index;
+        }
+      }
+    });
+    // ç›´ç·šæç”»
     ctx.clearRect(0,0,width,width);
-    ctx.fillText("test",10,10);
-    openstreetmap.rail.forEach(function(a){
+    openstreetmap.rail.forEach(function(a,index){
+      ctx.strokeStyle = (index===nearest?"#f00":"#000");
       ctx.beginPath();
       a.forEach(function(b){
         b = pos.toXY(new latLng(b));
-        ctx.lineTo(w2+w2*b.x/d, w2+w2*b.y/d);
+        ctx.lineTo(w2+w2*b.x/d, w2-w2*b.y/d);
       });
       ctx.stroke();
     });
     
-    // \•ª‚É—£‚ê‚½‚çXV
+    // ååˆ†ã«é›¢ã‚ŒãŸã‚‰æ›´æ–°
     if(pos.dist(prev)>d){
       openstreetmap.load(pos, d, function(){
         console.log("Get Map", openstreetmap.dom);
@@ -45,12 +56,9 @@ window.addEventListener('load',function(){
 
 
   $("#fixed").click(function(){
-    $(this).text((fixed=!fixed)?"ˆÚ“®ŠJn":"Œ»İ’nŒÅ’è");
+    $(this).text((fixed=!fixed)?"å›ºå®š":"ç§»å‹•");
     if(fixed)googlemaps.center(gps.pos.toGoogle());
-  });
-  $("#marker_fixed").click(function(){
-    $(this).text((markerMove=!markerMove)?"ƒ}[ƒJ[ŒÅ’è":"ƒ}[ƒJ[ˆÚ“®ŠJn");
-    //center.setDraggable(markerMove);
+    center.setDraggable(!fixed);
   });
   
 });

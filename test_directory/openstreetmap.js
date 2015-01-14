@@ -23,7 +23,7 @@
             $(this).find("nd").each(function(){
               var ndd=ret.dom.find("node[id="+
                 $(this).attr("ref")+
-                "]")
+                "]");
               nd.push(new google.maps.LatLng(
                 ndd.attr("lat")-0,
                 ndd.attr("lon")-0
@@ -32,7 +32,7 @@
             polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));
-            ret.rail.push(nd);
+            ret.rail.push(nd.map(function(v){ return new latLng(v); }));
           });
           //************          ************
           callback();
