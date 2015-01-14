@@ -51,7 +51,7 @@
     },
     // 距離加算
     toLatLng: function(x,y){
-      var dlat = d*360.0/latLng.latitude_, dlng = d*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
+      var dlat = y*360.0/latLng.latitude_, dlng = x*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
       return new LatLng(this.lat()+dlat, this.lng()+dlng);
     },
     // 距離換算
