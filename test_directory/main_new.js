@@ -5,7 +5,7 @@
   var width = canvas.width = canvas.height = 400;
   var w2 = width/2;
   var d = 500.0/1000.0;
-  var drawLine = function(l){
+  var drawLine = function(pos,l){
     ctx.beginPath();
     l.forEach(function(a){
       a = pos.toXY(new latLng(a));
@@ -22,8 +22,8 @@
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
   gps.on(function(pos, prev){
-  
-  if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
+    
+if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 座標の表示
     console.log("Get Pos", pos);
     //$("#gps").append(pos.lat()+','+pos.lng()+'<br>');
@@ -47,11 +47,11 @@
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a,index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
-      drawLine(a);
+      drawLine(pos, a);
     });
     ctx.strokeStyle = "#0ff";
     openstreetmap.station.forEach(function(a){
-      drawLine(a);
+      drawLine(pos, a);
     });
     ctx.fillText("test", 10,10);
     if(nearest!==null){
