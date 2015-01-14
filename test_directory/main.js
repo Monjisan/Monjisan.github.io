@@ -1,8 +1,9 @@
 ﻿var map, pos = new vector(), getpos = new vector();
 var roadMap = {rail:[], way:[], station:[]};
-var defPos = new google.maps.LatLng(-34.397, 150.644);
+var defPos = new google.maps.LatLng({"x":139.41624800761724,"y":35.69925562319279});
 var center, field;
 var fixed = true;
+var canvas, ctx, cw=500, ch=500;
 
 var move = new vector();
 var markerMove = false;
@@ -24,15 +25,11 @@ function initialize(){
   information = {
     gps:{},
     gps_:{},
-    accel:{},
-    accel_:{},
-    direction:[],
-    velocity:{},
-    position:{},
     data:""
   };
   // function
   var showInformation = function(){
+    console.log("show");
     // show
     var text = [
       "緯度：" + information.gps_.y,
@@ -45,34 +42,19 @@ function initialize(){
     ];
     $("#gps").html(text.join("<br>"));
     
-    // show accelaration
-    var text;
-    try{text = [
-      "加速度 X:" + information.accel_.accel.x,
-      "加速度 Y:" + information.accel_.accel.y,
-      "加速度 Z:" + information.accel_.accel.z,
-      "aX:" + information.accel.acceleration.x,
-      "aY:" + information.accel.acceleration.y,
-      "aZ:" + information.accel.acceleration.z,
-      "GX:" + information.accel.accelerationIncludingGravity.x,
-      "GY:" + information.accel.accelerationIncludingGravity.y,
-      "GZ:" + information.accel.accelerationIncludingGravity.z,
-      //"倍率:" + scale,
-      "角度:" + information.direction[0],
-      "    :" + information.direction[1],
-      "    :" + information.direction[2],
-      "加速度2D X:" + information.accel_.accel2d.x,
-      "加速度2D Y:" + information.accel_.accel2d.y,
-      "加速度2D Z:" + information.accel_.accel2d.z,
-      "速度 X:" + information.velocity.x,
-      "速度 Y:" + information.velocity.y,
-      "速度 Z:" + information.velocity.z,
-      "座標 X:" + information.position.x,
-      "座標 Y:" + information.position.y,
-      "座標 Z:" + information.position.z,
-      ""
-    ];}catch(e){}
-    $("#acc").html(text.join("<br>"));
+    ctx.clearRect(0,0,cw,ch);
+    ctx.beginPath();
+    ctx.lineTo(10,10);
+    ctx.lineTo(30,30);
+    ctx.stroke();
+    roadMap.rail.forEach(function(a){
+      ctx.beginPath();
+      a.forEach(function(b){
+        ctx.lineTo((b.x-information.gps_.x)*10000,(b.y-information.gps_.y)*10000);
+      });
+      ctx.stroke();
+    });
+    console.log("test");
   };
 
 
@@ -119,48 +101,6 @@ function initialize(){
 
     // set next action
     setTimeout(call, 1000);
-  };
-
-
-
-
-
-  // get acceleration sector
-  var lowpass = new vec3();
-  var deviceCall = function(){
-    window.addEventListener("devicemotion", devicemotion);
-    window.addEventListener("deviceorientation", deviceorientation);
-  }, east = new vec3(), north = new vec3();
-  var direction = [0,0,0];
-  var velocity = new vec3();
-  var position = new vec3();
-  var acc = [new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3(),new vec3()];
-  var accm = [new vec3(),new vec3(),new vec3()];
-  var devicemotion = function(e){
-    var accel, accel2d;
-    // get acceleration
-    accel = new vec3(e.acceleration);//(new vec3(e.acceleration)).sub(new vec3(e.accelerationIncludingGravity));
-    //lowpass = lowpass.add(accel.sub(lowpass).scale(0.1));
-    //accel = accel.sub(lowpass);
-    //accel.z = 0;
-
-    var scale = 0.0001;
-    //accel = new vec3(0,1,2);
-    var dir = direction.map(MyMath.dir);
-    var tmp = (new matrix(-dir[1], -dir[2], -dir[0])).dotv(accel);
-    acc.push(tmp);  acc.shift();
-    accm.push(tmp); accm.shift();
-    accel2d = accm.reduce(function(a,b){ return a.add(b); }, new vec3()).scale(1/accm.length)
-          .sub(acc.reduce(function(a,b){ return a.add(b); }, new vec3()).scale(1/acc .length));//new vector(tmp.x, tmp.y).scale(scale);
-
-    // set information
-    information.accel  = e;
-    information.accel_ = {accel:accel, accel2d:accel2d};
-    information.velocity = velocity = velocity.add(accel2d .dist()<0.1?new vec3():accel2d);
-    information.position = position = position.add(velocity.dist()<0.1?new vec3():velocity);
-  }, deviceorientation = function(e){
-    var a = e.alpha, b = e.beta, c = e.gamma;
-    information.direction = direction = [a,b,c];
   };
 
 
@@ -241,6 +181,8 @@ try{
 
 
 
+
+  try{
   // set google map
   var mapOptions = {
     center: defPos,
@@ -274,18 +216,22 @@ try{
     bounds: new google.maps.LatLngBounds(defPos, defPos)
   };
   field = new google.maps.Rectangle(fieldOptions);
+  }catch(e){
+    error("google map error");
+  }
 
-
-
+  canvas = $("#my_map")[0];
+  ctx = canvas.getContext('2d');
+  canvas.width = cw;
+  canvas.height = ch;
 
 
 
   // call main thread
   if (navigator.geolocation) {
     call();  // call GPS
-    deviceCall();  // call device motion
-    setInterval(showInformation, 1000/15); // call show function
     setTimeout(getLine,500);
+    setInterval(showInformation, 1000/15); // call show function
 
 
     // set click events
@@ -295,9 +241,6 @@ try{
     $("#marker_fixed").click(function(){
       $(this).text((markerMove=!markerMove)?"マーカー固定":"マーカー移動開始");
       center.setDraggable(markerMove);
-    });
-    $("#reset").click(function(){
-      position = velocity = new vec3();
     });
   } else {
     error("This device cannot use GPS.");

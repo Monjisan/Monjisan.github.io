@@ -5,17 +5,19 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBDj8H5CMzqonMcl8Qfrl_AzXo0SEDmtDU&sensor=false"></script>
   <script type="text/javascript" src="../js/jquery-1.11.0.min.js"></script>
-  <script type="text/javascript" src="./vector.js"></script>
-  <script type="text/javascript" src="./main.js"></script>
+  <script type="text/javascript" src="./latlng.js"></script>
+  <script type="text/javascript" src="./googlemaps.js"></script>
+  <script type="text/javascript" src="./openstreetmap.js"></script>
+  <script type="text/javascript" src="./gps.js"></script>
+  <script type="text/javascript" src="./main_new.js"></script>
 </head>
-<body onload="initialize()" style="margin:0px;">
+<body style="margin:0px;">
   <b>gps</b>
   <div id="gps"></div>
-  <b>acceleration</b>
-  <div id="acc"></div>
   <b id="error"></b><br>
   <button id="fixed">移動開始</button><button id="marker_fixed">マーカー移動開始</button>
   <button id="reset">リセット</button>
-  <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div>
+  <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div><br>
+  <canvas id="my_map" style="width:100%;max-width:400px;height:400px;margin:0px;"></canvas>
 </body>
 </html>

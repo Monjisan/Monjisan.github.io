@@ -6,9 +6,12 @@ vector = function(x,y){
   if(y===undef){
     if(x===undef){
       x = y = 0.0;
+    }else if(typeof x.lat==="function"){
+      y = x.lat();
+      x = x.lng();
     }else{
-      y = x.y!==undef?x.y:typeof x.lat==="function"?x.lat():0.0;
-      x = x.x!==undef?x.x:typeof x.lng==="function"?x.lng():0.0;
+      y = x.y!==undef?x.y:0.0;
+      x = x.x!==undef?x.x:0.0;
     }
   }
   this.x = x-0.0;
