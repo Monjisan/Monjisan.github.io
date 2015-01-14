@@ -12,6 +12,7 @@
   var d = 500.0/1000.0;
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
+  var prevLoadPos = new latLng();
   gps.on(function(pos, prev){
   
   if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
@@ -64,10 +65,11 @@
     }
     
     // 十分に離れたら更新
-    if(pos.dist(prev)>d){
+    if(prevLoadPos!==null && pos.dist(prevLoadPos)>d){
+      prevLoadPos = null;
       openstreetmap.load(pos, d, function(){
         console.log("Get Map", openstreetmap.dom);
-        
+        prevLoadPos = pos;
       });
     }
     
