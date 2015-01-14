@@ -47,8 +47,8 @@
     });
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
-      var p0 = p[nearestPos], p1 = p[nearestPos-1];
-      p = pos.nearestPos(p0, p1);
+      var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
+      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       var pt = p[1];
       p = p[0];
       ctx.strokeStyle = "#f00";
