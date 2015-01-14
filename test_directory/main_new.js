@@ -51,9 +51,13 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     });
     ctx.strokeStyle = "#0ff";
     openstreetmap.station.forEach(function(a){
-      drawLine(pos, a);
+      //drawLine(pos, a);
+      ctx.beginPath();
+      ctx.arc(w2+w2*a.x/d, w2-w2*a.y/d, 5, 0, Math.PI*2);
+      ctx.stroke();
     });
-    ctx.fillText("rail["+openstreetmap.rail.length+"]\nstation["+openstreetmap.station.length+"]", 10,10);
+    ctx.fillText("rail["+openstreetmap.rail.length+"]", 10,10);
+    ctx.fillText("station["+openstreetmap.station.length+"]", 10,20);
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);

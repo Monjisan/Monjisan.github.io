@@ -37,8 +37,8 @@
             }));*/
             ret.rail.push(nd.map(function(v){ return new latLng(v); }));
           });
-          ret.dom.find("way").filter(stationFilter).each(function(){
-            var nd=[];
+          ret.dom.find("node").filter(stationFilter).each(function(){
+            /*var nd=[];
             $(this).find("nd").each(function(){
               var ndd = ret.dom.find("node[id="+
                 $(this).attr("ref")+
@@ -47,11 +47,16 @@
                 ndd.attr("lat")-0,
                 ndd.attr("lon")-0
               ));
-            });
+            });*/
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            ret.station.push(nd.map(function(v){ return new latLng(v); }));
+            //ret.station.push(nd.map(function(v){ return new latLng(v); }));
+            var a = $(this);
+            ret.station.push(new google.maps.LatLng(
+                a.attr("lat")-0,
+                a.attr("lon")-0
+              ));
           });
           //************          ************
           callback();
