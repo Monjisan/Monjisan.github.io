@@ -50,12 +50,12 @@
       return new google.maps.LatLng(this.lat(), this.lng());
     },
     // 距離加算
-    toLatLng = function(x,y){
+    toLatLng: function(x,y){
       var dlat = d*360.0/latLng.latitude_, dlng = d*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
       return new LatLng(this.lat()+dlat, this.lng()+dlng);
     },
     // 距離換算
-    toXY = function(p){
+    toXY: function(p){
       var y = (p.lat()-this.lat())*latLng.latitude_ /360.0;
       var x = (p.lng()-this.lng())*latLng.lontitude_/360.0 * Math.cos((p.lat()+this.lat())/2*Math.PI/180);
       return {x:x, y:y};
