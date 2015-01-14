@@ -29,7 +29,7 @@
             });
             ret.rail.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
-            });
+            }));
           });
           //************          ************
           callback();

@@ -15,8 +15,8 @@ window.addEventListener('load',function(){
     console.log("Get Pos", pos);
     $("#gps").append(pos.lat()+','+pos.lng()+'<br>');
     // 座標に移動
-    googlemaps.center(pos);
-    center.setPosition(pos);
+    googlemaps.center(pos.toGoogle());
+    center.setPosition(pos.toGoogle());
     
     // 十分に離れたら更新
     if(pos.dist(prev)>d){
