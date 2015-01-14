@@ -1,6 +1,7 @@
 ﻿var gps = (function(){
   // 使用可能かどうか
-  if(typeof navigator.geolocation === typeof {}[0]){
+  if(navigator.geolocation){
+  }else{
     return {};
   }
 
@@ -16,20 +17,36 @@
     prevEvent: {}
   };
   
+  
+  
   // GPS監視
-  navigator.geolocation.watchPosition(function(e){
+  var successCB = function(e){
     ret.prevPos = ret.pos;
     ret.prevEvent = ret.event;
     ret.pos = new latLng(e.coords);
     ret.event = e;
     listener.forEach(function(a){ a(ret.pos, ret.prevPos); });
-  },function(e){
+  }, errorCB = function(e){
     console.error(e);
-  },{
+  };
+  // setTimeout type
+  var getfunc = function(){
+    navigator.geolocation.getCurrentPosition(successfunc, errorCB);
+  }, successfunc = function(e){
+    try{
+      successCB(e);
+    }catch(err){
+      console.error(err);
+    }
+    setTimeout(getfunc, 100);
+  };
+  getfunc();
+  /* watchPosition type
+  navigator.geolocation.watchPosition(successCB,errorCB,{
     enableHighAccuracy: true,
     timeout : 1000,
    maximumAge: 0
-  });
+  });*/
   
   return ret;
 })();
