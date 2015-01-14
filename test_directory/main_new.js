@@ -23,13 +23,14 @@
     center.setPosition(pos.toGoogle());
     
     // 最近直線判定
-    var nearest = null, nearDist = 1e9;
+    var nearest = null, nearestPos = null, nearDist = 1e9;
     openstreetmap.rail.forEach(function(a,index){
       for(var i=1;i<a.length;++i){
         var dist = pos.distToLine(a[i],a[i-1]);
         if(dist<nearDist){
           nearDist = dist;
           nearest = index;
+          nearestPos = i;
         }
       }
     });
@@ -45,6 +46,14 @@
       });
       ctx.stroke();
     });
+    if(nearest!==null){
+      var p = openstreetmap.rail[nearest];
+      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      ctx.strokeStyle = "#f00";
+      ctx.beginPath();
+      ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
+      ctx.stroke();
+    }
     
     // 十分に離れたら更新
     if(pos.dist(prev)>d){
