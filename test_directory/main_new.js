@@ -52,6 +52,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     ctx.strokeStyle = "#0ff";
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
+      a = pos.toXY(a);
       ctx.beginPath();
       ctx.arc(w2+w2*a.x/d, w2-w2*a.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
