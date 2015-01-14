@@ -69,13 +69,15 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.stroke();
     }
     // 駅描画
-    ctx.strokeStyle = "#0ff";
-    ctx.fillStyle = "rgba(0,255,255,0.7)";
+    ctx.strokeStyle = "#066";
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
       var p = pos.toXY(a[0]);
-      if(p.dist()<1000.0/1000.0){
+      if(p.dist()<200.0/1000.0){
         station = a;
+        ctx.fillStyle = "rgba(0,255,255,0.7)";
+      }else{
+        ctx.fillStyle = "rgba(0,255,255,0.3)";
       }
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 15, 0, Math.PI*2);
@@ -84,7 +86,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.fill();
     });
     if(station!==null){
-      $("#station").text("駅:"+station[1]);
+      $("#station").text(station[1]);
     }else{
       $("#station").text("");
     }
