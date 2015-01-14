@@ -7,7 +7,7 @@
   // 返すオブジェクト
   var listener = [];
   var ret = {
-    on:function(f){
+    on: function(f){
       if(typeof f==="function"){ listener.push(f); }
     },
     pos: new latLng(),
@@ -18,11 +18,11 @@
   
   // GPS監視
   navigator.geolocation.watchPosition(function(e){
-    gps.prevPos = gps.pos;
-    gps.prevEvent = gps.event;
-    gps.pos = new latLng(e.coords);
-    gps.event = e;
-    listener.forEach(function(a){ a(gps.pos, gps.prevPos); });
+    ret.prevPos = ret.pos;
+    ret.prevEvent = ret.event;
+    ret.pos = new latLng(e.coords);
+    ret.event = e;
+    listener.forEach(function(a){ a(ret.pos, ret.prevPos); });
   },function(e){
     console.error(e);
   },{

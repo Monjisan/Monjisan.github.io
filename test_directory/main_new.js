@@ -14,7 +14,7 @@
   var center = googlemaps.makeMarker();
   gps.on(function(pos, prev){
   
-  if(!fixed)pos = new latLng(googlemaps.center());
+  if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 座標の表示
     console.log("Get Pos", pos);
     //$("#gps").append(pos.lat()+','+pos.lng()+'<br>');
