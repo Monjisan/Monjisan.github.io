@@ -50,13 +50,15 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       drawLine(pos, a);
     });
     ctx.strokeStyle = "#0ff";
+    ctx.fillStyle = "rgba(0,255,255,0.2)";
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
       a = pos.toXY(a);
       ctx.beginPath();
-      ctx.arc(w2+w2*a.x/d, w2-w2*a.y/d, 5, 0, Math.PI*2);
+      ctx.arc(w2+w2*a.x/d, w2-w2*a.y/d, 15, 0, Math.PI*2);
       ctx.stroke();
     });
+    ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10,10);
     ctx.fillText("station["+openstreetmap.station.length+"]", 10,20);
     if(nearest!==null){
