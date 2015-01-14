@@ -36,7 +36,6 @@
     });
     // 直線描画
     ctx.clearRect(0,0,width,width);
-    ctx.fillText("test",10,10);
     openstreetmap.rail.forEach(function(a,index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
       ctx.beginPath();
@@ -49,10 +48,13 @@
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      var pt = p[1];
+      p = p[0];
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
+      ctx.fillText(pt, w2+w2*p.x/d, w2-w2*p.y/d);
     }
     
     // 十分に離れたら更新
