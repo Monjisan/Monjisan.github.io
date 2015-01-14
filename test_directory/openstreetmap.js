@@ -3,7 +3,7 @@
   var railFilter = function(){
     return $(this).find("tag[k=railway][v=rail]").length>0;
   };
-  var polyline=[];
+  //var polyline=[];
   var ret = {
     // 更新
     load: function(pos, d, callback){
@@ -15,8 +15,8 @@
         success:function(res){
           ret.dom = $(res);
           //************[draw map]************
-          polyline.forEach(function(a){ a.setMap(null); });
-          polyline = [];
+          //polyline.forEach(function(a){ a.setMap(null); });
+          //polyline = [];
           ret.rail = [];
           ret.dom.find("way").filter(railFilter).each(function(){
             var nd=[];
@@ -29,9 +29,9 @@
                 ndd.attr("lon")-0
               ));
             });
-            polyline.push(new google.maps.Polyline({
+            /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
-            }));
+            }));*/
             ret.rail.push(nd.map(function(v){ return new latLng(v); }));
           });
           //************          ************
