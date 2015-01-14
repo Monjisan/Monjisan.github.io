@@ -28,7 +28,7 @@
           draggable: false
         };
       }
-      var marker = new google.maps.Marker(option);
+      return new google.maps.Marker(option);
     }
   };
   

@@ -51,13 +51,13 @@
     },
     // 距離加算
     toLatLng: function(x,y){
-      var dlat = y*360.0/latLng.latitude_, dlng = x*360.0/latLng.lontitude_ / Math.cos(dlat*Math.PI/180)
-      return new latLng(this.lat()+dlat, this.lng()+dlng);
+      var dlat = y*360.0/ret.latitude_, dlng = x*360.0/ret.lontitude_ / Math.cos(dlat*Math.PI/180)
+      return new ret(this.lat()+dlat, this.lng()+dlng);
     },
     // 距離換算
     toXY: function(p){
-      var y = (p.lat()-this.lat())*latLng.latitude_ /360.0;
-      var x = (p.lng()-this.lng())*latLng.lontitude_/360.0 * Math.cos((p.lat()+this.lat())/2*Math.PI/180);
+      var y = (p.lat()-this.lat())*ret.latitude_ /360.0;
+      var x = (p.lng()-this.lng())*ret.lontitude_/360.0 * Math.cos((p.lat()+this.lat())/2*Math.PI/180);
       return {x:x, y:y};
     }
   };
