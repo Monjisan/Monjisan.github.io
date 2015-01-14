@@ -14,7 +14,7 @@
         type:"GET",
         success:function(res){
           ret.dom = $(res).find("osm");
-          var nodes = ret.dom.find("node");
+          //var nodes = ret.dom.find("node");
           //************[draw map]************
           //polyline.forEach(function(a){ a.setMap(null); });
           //polyline = [];
