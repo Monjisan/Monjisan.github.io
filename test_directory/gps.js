@@ -9,17 +9,26 @@
   var ret = {
     on:function(f){
       if(typeof f==="function"){ listener.push(f); }
-    }
+    },
+    pos: new latLng(),
+    event: {},
+    prevPos: new latLng(),
+    prevEvent: {}
   };
-  var prev = new latLng();
   
   // GPS監視
   navigator.geolocation.watchPosition(function(e){
-    var pos = new latLng(e.coords);
-    listener.forEach(function(a){ a(pos, prev); });
-    prev = pos;
+    gps.prevPos = pos;
+    gps.prevEvent = gps.event;
+    gps.pos = new latLng(e.coords);
+    gps.event = e;
+    listener.forEach(function(a){ a(gps.pos, gps.prevPos); });
   },function(e){
     console.error(e);
+  },{
+    enableHighAccuracy: true,
+    timeout : 1000,
+   maximumAge: 0
   });
   
   return ret;
