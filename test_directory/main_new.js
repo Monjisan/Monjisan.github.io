@@ -22,6 +22,7 @@ window.addEventListener('load',function(){
     
     
     ctx.clearRect(0,0,width,width);
+    ctx.fillText("test",10,10);
     openstreetmap.rail.forEach(function(a){
       ctx.beginPath();
       a.forEach(function(b){
