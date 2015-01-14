@@ -5,6 +5,7 @@
   var width = canvas.width = canvas.height = 400;
   var w2 = width/2;
   var d = 500.0/1000.0;
+  var stationRange = 250.0/1000.0; // 駅範囲
   var drawLine = function(pos,l){
     ctx.beginPath();
     l.forEach(function(a){
@@ -73,14 +74,14 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     openstreetmap.station.forEach(function(a){
       //drawLine(pos, a);
       var p = pos.toXY(a[0]);
-      if(p.dist()<200.0/1000.0){
+      if(p.dist()<stationRange){
         station = a;
         ctx.fillStyle = "rgba(0,255,255,0.7)";
       }else{
         ctx.fillStyle = "rgba(0,255,255,0.3)";
       }
       ctx.beginPath();
-      ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 15, 0, Math.PI*2);
+      ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, w2*stationRange/d, 0, Math.PI*2);
       ctx.closePath();
       ctx.stroke();
       ctx.fill();
