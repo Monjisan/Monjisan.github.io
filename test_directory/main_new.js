@@ -93,8 +93,13 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     }
     // 情報描画
     ctx.fillStyle = "#000";
-    ctx.fillText("rail["+openstreetmap.rail.length+"]", 10,10);
-    ctx.fillText("station["+openstreetmap.station.length+"]", 10,20);
+    ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
+    ctx.fillText("station["+openstreetmap.station.length+"]", 10, 20);
+    ctx.beginPath();
+    ctx.arc(w2, w2, 1, 0, Math.PI*2);
+    ctx.closePath();
+    ctx.fill();
+    if(station!==null){ ctx.fillText(station[1], w2, w2); }
     
     // 十分に離れたら更新
     if(prevLoadPos!==null && pos.dist(prevLoadPos)>d){
