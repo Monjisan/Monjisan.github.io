@@ -53,7 +53,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     openstreetmap.station.forEach(function(a){
       drawLine(pos, a);
     });
-    ctx.fillText("test", 10,10);
+    ctx.fillText("rail["+openstreetmap.rail.length+"]\nstation["+openstreetmap.station.length+"]", 10,10);
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
