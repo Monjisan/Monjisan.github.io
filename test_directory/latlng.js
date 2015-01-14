@@ -91,9 +91,9 @@ var latLng = (function(){
       l1 = this.toXY(l1);
       l2 = this.toXY(l2);
       var lv = l2.sub(l1);
-      if(lv.dot(l1)>0){ return [l1,0]; }
-      else if(lv.dot(l2)<0){ return [l2,1]; }
-      return [l1.add( lv.scale(l2.dot(lv)/lv.dot(lv)) ),2];
+      if(lv.dot(l1)>0){ return l1; }
+      else if(lv.dot(l2)<0){ return l2; }
+      return l1.add( lv.scale(-l2.dot(lv)/lv.dot(lv)) );
     },
     // google maps 用変換
     toGoogle: function(){

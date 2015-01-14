@@ -49,13 +49,10 @@
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
-      var pt = p[1];
-      p = p[0];
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
-      ctx.fillText(pt, w2+w2*p.x/d, w2-w2*p.y/d);
       ctx.strokeStyle = "#ff0";
       ctx.beginPath();
       ctx.arc(w2+w2*p0.x/d, w2-w2*p0.y/d, 5, 0, Math.PI*2);
