@@ -13,6 +13,8 @@
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
   gps.on(function(pos, prev){
+  
+  if(!fixed)pos = googlemaps.center();
     // 座標の表示
     console.log("Get Pos", pos);
     $("#gps").append(pos.lat()+','+pos.lng()+'<br>');
@@ -33,6 +35,7 @@
     });
     // 直線描画
     ctx.clearRect(0,0,width,width);
+    ctx.fillText("test",10,10);
     openstreetmap.rail.forEach(function(a,index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
       ctx.beginPath();
