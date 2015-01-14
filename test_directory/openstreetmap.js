@@ -1,7 +1,7 @@
 ﻿var openstreetmap = (function(){
 
   var railFilter = function(){
-    return $(this).fild("tag[k=railway][v=rail]").length>0;
+    return $(this).find("tag[k=railway][v=rail]").length>0;
   };
   var ret = {
     // 更新
