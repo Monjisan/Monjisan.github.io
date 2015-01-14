@@ -2,7 +2,7 @@
   // 描画準備
   var canvas = $('#my_map')[0];
   var ctx = canvas.getContext('2d');
-  var width = canvas.width = canvas.height = 500;
+  var width = canvas.width = canvas.height = 400;
   var w2 = width/2;
 
   // google maps準備
