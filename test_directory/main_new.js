@@ -4,12 +4,20 @@
   var ctx = canvas.getContext('2d');
   var width = canvas.width = canvas.height = 400;
   var w2 = width/2;
+  var d = 500.0/1000.0;
+  var drawLine = function(l){
+    ctx.beginPath();
+    l.forEach(function(a){
+      a = pos.toXY(new latLng(a));
+      ctx.lineTo(w2+w2*a.x/d, w2-w2*a.y/d);
+    });
+    ctx.stroke();
+  };
 
   // google maps準備
   googlemaps.makeMap($('#map_canvas')[0]);
   
   // GPS呼び出し開始
-  var d = 500.0/1000.0;
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
@@ -39,12 +47,11 @@
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a,index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
-      ctx.beginPath();
-      a.forEach(function(b){
-        b = pos.toXY(new latLng(b));
-        ctx.lineTo(w2+w2*b.x/d, w2-w2*b.y/d);
-      });
-      ctx.stroke();
+      drawLine(a);
+    });
+    ctx.strokeStyle = "#0ff";
+    openstreetmap.station.forEach(function(a){
+      drawLine(a);
     });
     ctx.fillText("test", 10,10);
     if(nearest!==null){

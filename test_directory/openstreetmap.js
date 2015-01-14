@@ -2,6 +2,8 @@
 
   var railFilter = function(){
     return $(this).find("tag[k=railway][v=rail]").length>0;
+  }, stationFilter = function(){
+    return $(this).find("tag[k=railway][v=station]").length>0;// tag[k=building][v=train_station]
   };
   //var polyline=[];
   var ret = {
@@ -34,6 +36,22 @@
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
             ret.rail.push(nd.map(function(v){ return new latLng(v); }));
+          });
+          ret.dom.find("way").filter(stationFilter).each(function(){
+            var nd=[];
+            $(this).find("nd").each(function(){
+              var ndd = ret.dom.find("node[id="+
+                $(this).attr("ref")+
+                "]");
+              nd.push(new google.maps.LatLng(
+                ndd.attr("lat")-0,
+                ndd.attr("lon")-0
+              ));
+            });
+            /*polyline.push(new google.maps.Polyline({
+              path:nd, strokeColor:"#000", map:googlemaps.map()
+            }));*/
+            ret.station.push(nd.map(function(v){ return new latLng(v); }));
           });
           //************          ************
           callback();
