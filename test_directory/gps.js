@@ -18,7 +18,7 @@
   
   // GPS監視
   navigator.geolocation.watchPosition(function(e){
-    gps.prevPos = pos;
+    gps.prevPos = gps.pos;
     gps.prevEvent = gps.event;
     gps.pos = new latLng(e.coords);
     gps.event = e;
