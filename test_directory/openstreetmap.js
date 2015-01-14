@@ -13,7 +13,7 @@
         "0.6/map?bbox="+lb.lng()+","+lb.lat()+","+rt.lng()+","+rt.lat(),
         type:"GET",
         success:function(res){
-          ret.dom = $(res);
+          ret.dom = $(res).find("osm");
           var nodes = ret.dom.find("node");
           //************[draw map]************
           //polyline.forEach(function(a){ a.setMap(null); });
@@ -22,7 +22,7 @@
           ret.dom.find("way").filter(railFilter).each(function(){
             var nd=[];
             $(this).find("nd").each(function(){
-              var ndd=nodes.find("node[id="+
+              var ndd = ret.dom.find("node[id="+
                 $(this).attr("ref")+
                 "]");
               nd.push(new google.maps.LatLng(
