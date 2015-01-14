@@ -16,7 +16,7 @@
           //************[draw map]************
           ret.rail.forEach(function(a){ a.setMap(null); });
           ret.rail = [];
-          ret.dom.fild("way").filter(wayFilter).each(function(){
+          ret.dom.find("way").filter(wayFilter).each(function(){
             var nd=[];
             $(this).find("nd").each(function(){
               var ndd=ret.dom.find("node[id="+
