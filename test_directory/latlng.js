@@ -92,7 +92,7 @@ var latLng = (function(){
       l2 = this.toXY(l2);
       var lv = l2.sub(l1);
       if(lv.dot(l1)>0){ return l1; }
-      else if(lv.dot(l2))<0){ return l2; }
+      else if(lv.dot(l2)<0){ return l2; }
       var p = l1.add( lv.scale(l2.dot(lv)/lv.dot(lv)) );
       return p;
     },
