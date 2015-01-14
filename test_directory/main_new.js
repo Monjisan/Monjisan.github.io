@@ -45,6 +45,7 @@
       });
       ctx.stroke();
     });
+    ctx.fillText("test", 10,10);
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
