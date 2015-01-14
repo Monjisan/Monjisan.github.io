@@ -53,7 +53,7 @@
             }));*/
             //ret.station.push(nd.map(function(v){ return new latLng(v); }));
             var a = $(this);
-            ret.station.push(new latLng(a.attr("lat")-0, a.attr("lon")-0));
+            ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a]);
           });
           //************          ************
           callback();

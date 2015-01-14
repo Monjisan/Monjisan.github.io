@@ -33,6 +33,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     
     // 最近直線判定
     var nearest = null, nearestPos = null, nearDist = 1e9;
+    var station = null;
     openstreetmap.rail.forEach(function(a,index){
       for(var i=1;i<a.length;++i){
         var dist = pos.distToLine(a[i],a[i-1]);
@@ -49,18 +50,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
       drawLine(pos, a);
     });
-    ctx.strokeStyle = "#0ff";
-    ctx.fillStyle = "rgba(0,255,255,0.2)";
-    openstreetmap.station.forEach(function(a){
-      //drawLine(pos, a);
-      a = pos.toXY(a);
-      ctx.beginPath();
-      ctx.arc(w2+w2*a.x/d, w2-w2*a.y/d, 15, 0, Math.PI*2);
-      ctx.stroke();
-    });
-    ctx.fillStyle = "#000";
-    ctx.fillText("rail["+openstreetmap.rail.length+"]", 10,10);
-    ctx.fillText("station["+openstreetmap.station.length+"]", 10,20);
+    // 最近点描画
     if(nearest!==null){
       var p = openstreetmap.rail[nearest];
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
@@ -77,6 +67,29 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.arc(w2+w2*p1.x/d, w2-w2*p1.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
     }
+    // 駅描画
+    ctx.strokeStyle = "#0ff";
+    ctx.fillStyle = "rgba(0,255,255,0.2)";
+    openstreetmap.station.forEach(function(a){
+      //drawLine(pos, a);
+      var p = pos.toXY(a[0]);
+      if(pos.dist(a[0])<200.0/1000.0){
+        station = a;
+      }
+      ctx.beginPath();
+      ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 15, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.fill();
+    });
+    if(station!==null){
+      $("#station").text(station[1].find("tag[k=name]").attr("v"));
+    }else{
+      $("#station").text("");
+    }
+    // 情報描画
+    ctx.fillStyle = "#000";
+    ctx.fillText("rail["+openstreetmap.rail.length+"]", 10,10);
+    ctx.fillText("station["+openstreetmap.station.length+"]", 10,20);
     
     // 十分に離れたら更新
     if(prevLoadPos!==null && pos.dist(prevLoadPos)>d){
