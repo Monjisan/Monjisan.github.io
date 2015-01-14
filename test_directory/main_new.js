@@ -17,7 +17,7 @@
   if(!fixed)pos = new latLng(googlemaps.center());
     // 座標の表示
     console.log("Get Pos", pos);
-    $("#gps").append(pos.lat()+','+pos.lng()+'<br>');
+    //$("#gps").append(pos.lat()+','+pos.lng()+'<br>');
     // 座標に移動
     if(fixed)googlemaps.center(pos.toGoogle());
     center.setPosition(pos.toGoogle());

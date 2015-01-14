@@ -14,6 +14,7 @@
         type:"GET",
         success:function(res){
           ret.dom = $(res);
+          var nodes = ret.dom.find("node");
           //************[draw map]************
           //polyline.forEach(function(a){ a.setMap(null); });
           //polyline = [];
@@ -21,7 +22,7 @@
           ret.dom.find("way").filter(railFilter).each(function(){
             var nd=[];
             $(this).find("nd").each(function(){
-              var ndd=ret.dom.find("node[id="+
+              var ndd=nodes.find("node[id="+
                 $(this).attr("ref")+
                 "]");
               nd.push(new google.maps.LatLng(
