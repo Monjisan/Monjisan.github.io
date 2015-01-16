@@ -51,15 +51,16 @@
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
+            a = a.nodes;
             ret.rail.forEach(function(b,ib){
               if(ia===ib){ return; }
               b.nodes.forEach(function(c,ic){
-                if(a.nodes[0].id === c.id){
-                  a.node[0].next[ib] = ic;
+                if(a[0].id === c.id){
+                  a[0].next[ib] = ic;
                   c.next[ia] = 0;
                 }
-                if(a.nodes[a.length-1].id === c.id){
-                  a.node[a.length-1].next[ib] = ic;
+                if(a[a.length-1].id === c.id){
+                  a[a.length-1].next[ib] = ic;
                   c.next[ia] = a.length-1;
                 }
               });
