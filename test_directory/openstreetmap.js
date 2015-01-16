@@ -6,8 +6,9 @@
     return $(this).find("tag[k=railway][v=station]").length>0;// tag[k=building][v=train_station]
   };
   //var polyline=[];
-  var railway = function(nodes, name){
-    this.nodes = (nodes||[]).map(function(v){ return new latLng(v); });
+  var railway = function(nodes, station, name){
+    this.nodes = $.isArray(nodes)?nodes:[];
+    this.station = $.isArray(station)?nodes:[];
     this.name = ""+name;
   };
   var ret = {
@@ -25,39 +26,44 @@
           //polyline.forEach(function(a){ a.setMap(null); });
           //polyline = [];
           ret.rail = [];
+          // 駅取得
+          xml.find("node").filter(stationFilter).each(function(){
+            var a = $(this);
+            ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a.find("tag[k=name]").attr("v")]);
+          });
+          // 線路取得
           xml.find("way").filter(railFilter).each(function(){
-            var nd=[];
+            var nd=[], st=[];
             $(this).find("nd").each(function(){
-              var ndd = xml.find("node[id="+
-                $(this).attr("ref")+
-                "]");
-              nd.push(new google.maps.LatLng(
-                ndd.attr("lat")-0,
-                ndd.attr("lon")-0
-              ));
+              var id = $(this).attr("ref"),
+                  ndd = xml.find("node[id="+id+"]"),
+                  nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {});
+              st.push(ret.station.reduce(function(a,b,index){
+                if(nddp.dist(b[0])) return index;
+                return a;
+              }), null);
+              nd.push(nddp);
             });
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            ret.rail.push(new railway(nd, $(this).find("tag[k=name]").attr("v")));
+            ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
           });
-          xml.find("node").filter(stationFilter).each(function(){
-            /*var nd=[];
-            $(this).find("nd").each(function(){
-              var ndd = xml.find("node[id="+
-                $(this).attr("ref")+
-                "]");
-              nd.push(new google.maps.LatLng(
-                ndd.attr("lat")-0,
-                ndd.attr("lon")-0
-              ));
-            });*/
-            /*polyline.push(new google.maps.Polyline({
-              path:nd, strokeColor:"#000", map:googlemaps.map()
-            }));*/
-            //ret.station.push(nd.map(function(v){ return new latLng(v); }));
-            var a = $(this);
-            ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a.find("tag[k=name]").attr("v")]);
+          // 隣接線路の取得
+          ret.rail.forEach(function(a,ia){
+            ret.rail.forEach(function(b,ib){
+              if(ia===ib){ return; }
+              b.nodes.forEach(function(c,ic){
+                if(a.nodes[0].id === c.id){
+                  a.node[0].next[ib] = ic;
+                  c.next[ia] = 0;
+                }
+                if(a.nodes[a.length-1].id === c.id){
+                  a.node[a.length-1].next[ib] = ic;
+                  c.next[ia] = a.length-1;
+                }
+              });
+            });
           });
           //************          ************
           callback();

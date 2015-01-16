@@ -34,6 +34,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     
     // 最近直線判定
     var nearest = null, nearestPos = null, nearDist = 1e9;
+    var nextrail = {};
     var station = null;
     openstreetmap.rail.forEach(function(way, index){
       var a = way.nodes;
@@ -46,10 +47,17 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
         }
       }
     });
+    if(nearest!==null){
+      openstreetmap.rail[nearest].nodes.forEach(function(a){
+        for(var i in a.next){
+          nextrail[i] = true;
+        }
+      });
+    }
     // 直線描画
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a, index){
-      ctx.strokeStyle = (index===nearest?"#f00":"#000");
+      ctx.strokeStyle = (index===nearest?"#f00":(nextrail[index]?"#f55":"#000"));
       drawLine(pos, a.nodes);
     });
     // 最近点描画

@@ -52,6 +52,8 @@ var latLng = (function(){
     }
     this.g = lng;
     this.t = lat;
+    this.id = arguments[2]; // openstreetmap用
+    this.next = arguments[3]; // openstreetmap用
   };
   
   // メソッド
