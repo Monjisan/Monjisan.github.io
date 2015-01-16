@@ -36,7 +36,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     var nearest = null, nearestPos = null, nearDist = 1e9;
     var station = null;
     openstreetmap.rail.forEach(function(way, index){
-      /*var a = way.nodes;
+      var a = way.nodes;
       for(var i=1;i<a.length;++i){
         var dist = pos.distToLine(a[i],a[i-1]);
         if(dist<nearDist){
@@ -44,16 +44,16 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
           nearest = index;
           nearestPos = i;
         }
-      }*/
+      }
     });
     // 直線描画
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a, index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
-      drawLine(pos, a.nodes);
+      //drawLine(pos, a.nodes);
     });
     // 最近点描画
-    if(nearest!==null){
+    /*if(nearest!==null){
       var p = openstreetmap.rail[nearest].nodes;
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
@@ -69,7 +69,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.beginPath();
       ctx.arc(w2+w2*p1.x/d, w2-w2*p1.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
-    }
+    }*/
     // 駅描画
     ctx.strokeStyle = "#066";
     openstreetmap.station.forEach(function(a){
