@@ -7,8 +7,8 @@
   };
   //var polyline=[];
   var railway = function(nodes, name){
-    this.nodes = nodes.map(function(v){ return new latLng(v); });
-    this.name = name;
+    this.nodes = (nodes||[]).map(function(v){ return new latLng(v); });
+    this.name = ""+name;
   };
   var ret = {
     // 更新

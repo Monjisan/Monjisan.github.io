@@ -38,12 +38,12 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     openstreetmap.rail.forEach(function(way, index){
       var a = way.nodes;
       for(var i=1;i<a.length;++i){
-        var dist = pos.distToLine(a[i],a[i-1]);
+        /*var dist = pos.distToLine(a[i],a[i-1]);
         if(dist<nearDist){
           nearDist = dist;
           nearest = index;
           nearestPos = i;
-        }
+        }*/
       }
     });
     // 直線描画
@@ -73,7 +73,6 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 駅描画
     ctx.strokeStyle = "#066";
     openstreetmap.station.forEach(function(a){
-      //drawLine(pos, a);
       var p = pos.toXY(a[0]);
       if(p.dist()<stationRange){
         station = a;
