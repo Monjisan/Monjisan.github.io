@@ -100,7 +100,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     ctx.arc(w2, w2, 1, 0, Math.PI*2);
     ctx.closePath();
     ctx.fill();
-    ctx.filText(openstreetmap.rail[nearest].name, w2, w2);
+    if(nearest!==null){ ctx.filText(openstreetmap.rail[nearest].name, w2, w2); }
     if(station!==null){ ctx.fillText(station[1], w2, w2+10); }
     
     // 十分に離れたら更新
