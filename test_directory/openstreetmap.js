@@ -39,7 +39,7 @@
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            ret.rail.push(new railway(nd, $(this).attr("name")));
+            ret.rail.push(new railway(nd, $(this).find("tag[k=name]").attr("v")));
           });
           xml.find("node").filter(stationFilter).each(function(){
             /*var nd=[];
