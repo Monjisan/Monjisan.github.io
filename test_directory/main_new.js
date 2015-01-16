@@ -38,12 +38,12 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     openstreetmap.rail.forEach(function(way, index){
       var a = way.nodes;
       for(var i=1;i<a.length;++i){
-        var dist = 0;//pos.distToLine(a[i],a[i-1]);
+        /*var dist = pos.distToLine(a[i],a[i-1]);
         if(dist<nearDist){
           nearDist = dist;
           nearest = index;
           nearestPos = i;
-        }
+        }*/
       }
     });
     // 直線描画
