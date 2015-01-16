@@ -48,9 +48,9 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     });
     // 直線描画
     ctx.clearRect(0,0,width,width);
-    openstreetmap.rail.forEach(function(a,index){
+    openstreetmap.rail.forEach(function(a, index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
-      //drawLine(pos, a.nodes);
+      drawLine(pos, a.nodes);
     });
     // 最近点描画
     if(nearest!==null){
