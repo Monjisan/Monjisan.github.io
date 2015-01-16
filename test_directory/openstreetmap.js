@@ -6,6 +6,10 @@
     return $(this).find("tag[k=railway][v=station]").length>0;// tag[k=building][v=train_station]
   };
   //var polyline=[];
+  var railway = function(nodes, name){
+    this.nodes = nodes.map(function(v){ return new latLng(v); });
+    this.name = name;
+  };
   var ret = {
     // 更新
     load: function(pos, d, callback){
@@ -15,16 +19,16 @@
         "0.6/map?bbox="+lb.lng()+","+lb.lat()+","+rt.lng()+","+rt.lat(),
         type:"GET",
         success:function(res){
-          ret.dom = $(res).find("osm");
-          //var nodes = ret.dom.find("node");
+          var xml = $(res).find("osm");
+          //var nodes = xml.find("node");
           //************[draw map]************
           //polyline.forEach(function(a){ a.setMap(null); });
           //polyline = [];
           ret.rail = [];
-          ret.dom.find("way").filter(railFilter).each(function(){
+          xml.find("way").filter(railFilter).each(function(){
             var nd=[];
             $(this).find("nd").each(function(){
-              var ndd = ret.dom.find("node[id="+
+              var ndd = xml.find("node[id="+
                 $(this).attr("ref")+
                 "]");
               nd.push(new google.maps.LatLng(
@@ -35,12 +39,12 @@
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            ret.rail.push(nd.map(function(v){ return new latLng(v); }));
+            ret.rail.push(railway(nd, $(this).attr("name")));
           });
-          ret.dom.find("node").filter(stationFilter).each(function(){
+          xml.find("node").filter(stationFilter).each(function(){
             /*var nd=[];
             $(this).find("nd").each(function(){
-              var ndd = ret.dom.find("node[id="+
+              var ndd = xml.find("node[id="+
                 $(this).attr("ref")+
                 "]");
               nd.push(new google.maps.LatLng(
@@ -63,7 +67,6 @@
     },
     rail: [],
     station: [],
-    dom: {}
   };
   
   

@@ -35,7 +35,8 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 最近直線判定
     var nearest = null, nearestPos = null, nearDist = 1e9;
     var station = null;
-    openstreetmap.rail.forEach(function(a,index){
+    openstreetmap.rail.forEach(function(way, index){
+      var a = way.nodes;
       for(var i=1;i<a.length;++i){
         var dist = pos.distToLine(a[i],a[i-1]);
         if(dist<nearDist){
@@ -49,11 +50,11 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a,index){
       ctx.strokeStyle = (index===nearest?"#f00":"#000");
-      drawLine(pos, a);
+      drawLine(pos, a.nodes);
     });
     // 最近点描画
     if(nearest!==null){
-      var p = openstreetmap.rail[nearest];
+      var p = openstreetmap.rail[nearest].nodes;
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       //pos = pos.toLatLng(p);
@@ -99,7 +100,8 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     ctx.arc(w2, w2, 1, 0, Math.PI*2);
     ctx.closePath();
     ctx.fill();
-    if(station!==null){ ctx.fillText(station[1], w2, w2); }
+    ctx.filText(openstreetmap.rail[nearest].name, w2, w2);
+    if(station!==null){ ctx.fillText(station[1], w2, w2+10); }
     
     // 十分に離れたら更新
     if(prevLoadPos!==null && pos.dist(prevLoadPos)>d){
