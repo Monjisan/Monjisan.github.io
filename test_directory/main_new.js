@@ -48,11 +48,17 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       }
     });
     if(nearest!==null){
-      openstreetmap.rail[nearest].nodes.forEach(function(a){
-        for(var i in a.next){
-          nextrail[i] = true;
-        }
-      });
+      var queue = [nearest];
+      while(queue.length>0){
+        openstreetmap.rail[queue.shift()].nodes.forEach(function(a){
+          for(var i in a.next){
+            if(!nextrail[i]){
+              nextrail[i] = true;
+              queue.push(i);
+            }
+          }
+        });
+      }
     }
     // 直線描画
     ctx.clearRect(0,0,width,width);
