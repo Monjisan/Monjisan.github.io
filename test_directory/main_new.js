@@ -1,4 +1,7 @@
-﻿window.addEventListener('load',function(){
+﻿console.error = function(){
+  $("#error").text([].join.call(arguments,"\n"));
+};
+window.addEventListener('load',function(){
   // 描画準備
   var canvas = $('#my_map')[0];
   var ctx = canvas.getContext('2d');
