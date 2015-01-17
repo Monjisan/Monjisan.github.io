@@ -63,7 +63,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([q[1], a.station]);
+            nextstation.push([q[1], openstreetmap.station[a.station][1]]);
           }
         });
       }
@@ -109,9 +109,9 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.fill();
     });
     if(station!==null){
-      $("#station").text(station[1] + "<br>"+nextstation.join("<br>"));
+      $("#station").text(station[1] + "\n"+nextstation.join("\n"));
     }else{
-      $("#station").text("" + nextstation.join("<br>"));
+      $("#station").text("" + nextstation.join("\n"));
     }
     // 情報描画
     ctx.fillStyle = "#000";
