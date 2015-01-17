@@ -42,7 +42,7 @@ var latLng = (function(){
       if(typeof arguments[0].lat === typeof [].join){
         lat = arguments[0].lat();
         lng = arguments[0].lng();
-      }else if(typeof arguments[0].latitude === typeof 0.0){
+      }else if(typeof arguments[0].latitude === typeof 0){
         lat = arguments[0].latitude;
         lng = arguments[0].longitude;
       }else{

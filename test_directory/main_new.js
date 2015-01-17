@@ -35,7 +35,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 最近直線判定
     var nearest = null, nearestPos = null, nearDist = 1e9;
     var nextrail = {};
-    var station = null;
+    var station = null, nextstation = [];
     openstreetmap.rail.forEach(function(way, index){
       var a = way.nodes;
       for(var i=1;i<a.length;++i){
@@ -48,14 +48,22 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       }
     });
     if(nearest!==null){
-      var queue = [nearest];
+      var queue = [[nearest,0]];
       while(queue.length>0){
-        openstreetmap.rail[queue.shift()].nodes.forEach(function(a){
+        var q = queue.shift();
+        openstreetmap.rail[q[0]].nodes.forEach(function(a){
           for(var i in a.next){
-            if(!nextrail[i]){
-              nextrail[i] = true;
-              queue.push(i);
+            i-=0;
+            if(i!==nearest){ continue; }
+            if(nextrail[i]===undefined){
+              nextrail[i] = q[1];
+              queue.push([i,q[1]+1]);
+            }else if(nextrail[i]>q[1]){
+              nextrail[i] = q[1];
             }
+          }
+          if(typeof a.station===typeof 0){
+            nextstation.push([q[1], a.station]);
           }
         });
       }
@@ -101,9 +109,9 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.fill();
     });
     if(station!==null){
-      $("#station").text(station[1]);
+      $("#station").text(station[1] + "<br>"+nextstation.join("<br>"));
     }else{
-      $("#station").text("");
+      $("#station").text("" + nextstation.join("<br>"));
     }
     // 情報描画
     ctx.fillStyle = "#000";
