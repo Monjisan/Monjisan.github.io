@@ -54,7 +54,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
         openstreetmap.rail[q[0]].nodes.forEach(function(a){
           for(var i in a.next){
             i-=0;
-            if(i!==nearest){ continue; }
+            if(i===nearest){ continue; }
             if(nextrail[i]===undefined){
               nextrail[i] = q[1];
               queue.push([i,q[1]+1]);
