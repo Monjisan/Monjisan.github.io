@@ -71,7 +71,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 直線描画
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a, index){
-      ctx.strokeStyle = (index===nearest?"#f00":(nextrail[index]?"#f0f":"#000"));
+      ctx.strokeStyle = (index===nearest?"#f00":(nextrail[index]!==undefined?"#f0f":"#000"));
       drawLine(pos, a.nodes);
     });
     // 最近点描画
@@ -109,9 +109,9 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.fill();
     });
     if(station!==null){
-      $("#station").text(station[1] + "\n"+nextstation.join("\n"));
+      $("#station").text(station[1] + "["+nextstation.join("-")+"]");
     }else{
-      $("#station").text("" + nextstation.join("\n"));
+      $("#station").text("" + "["+nextstation.join("-")+"]");
     }
     // 情報描画
     ctx.fillStyle = "#000";
