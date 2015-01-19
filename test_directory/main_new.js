@@ -9,6 +9,8 @@ window.addEventListener('load',function(){
   var w2 = width/2;
   var d = 500.0/1000.0;
   var stationRange = 250.0/1000.0; // 駅範囲
+  var velocity = (new Array(5)).map(function(){ return new vector(0,0); });
+  var prev = new latLng();
   var drawLine = function(pos,l){
     ctx.beginPath();
     l.forEach(function(a){
@@ -94,6 +96,9 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.beginPath();
       ctx.arc(w2+w2*p1.x/d, w2-w2*p1.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
+      velocity.shift();
+      velocity.push(prev.toXY(pos));
+      prev = pos;
     }
     // 駅描画
     ctx.strokeStyle = "#066";
