@@ -53,8 +53,9 @@
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
+            var self = a;
             a.len = function(i,j){
-              return Math.abs(a.lend[i]-a.lend[j]);
+              return Math.abs(self.lend[i]-self.lend[j]);
             }; // 距離累積計算
             a.lend = [0];
             a.nodes.forEach(function(b,ib){
