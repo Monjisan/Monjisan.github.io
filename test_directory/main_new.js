@@ -56,7 +56,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 速度用記録
     var time = new Date();
     velocity.shift();
-    velocity.push(prev.toXY(pos)*1000/(time-prevTime));
+    velocity.push(prev.toXY(pos).scale(1000/(time-prevTime)));
     prevTime = time;
     if(nearest!==null){
       // 最近点位置取得
