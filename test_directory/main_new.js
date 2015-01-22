@@ -75,7 +75,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             }
           }
           if(typeof a.station===typeof 0){
-            //nextstation.push([q[1]+rail.len(q[2],ai), openstreetmap.station[a.station][1]]);
+            nextstation.push([q[1]+rail.len(q[2],ai), openstreetmap.station[a.station][1]]);
           }
         });
       }
