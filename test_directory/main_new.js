@@ -120,7 +120,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.stroke();
       ctx.fill();
     });
-    $("#station").text((station!==null?station[1]:"") + "["+nextstation.join("-")+"]");
+    $("#station").text((station!==null?station[1]:"") + "["+nextstation.join("/")+"]");
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
