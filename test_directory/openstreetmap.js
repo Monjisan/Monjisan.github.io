@@ -54,11 +54,7 @@
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
             a.len = function(i,j){
-              var r;
-              try{
-                r = Math.abs(a.lend[i]-a.lend[j]);
-              }catch(e){ console.error('len error', e); r=0.0; }
-              return r;
+              return Math.abs(a.lend[i]-a.lend[j]);
             }; // 距離累積計算
             a.lend = [0];
             a.nodes.forEach(function(b,ib){
