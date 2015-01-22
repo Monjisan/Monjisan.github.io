@@ -9,7 +9,7 @@ window.addEventListener('load',function(){
   var w2 = width/2;
   var d = 500.0/1000.0;
   var stationRange = 250.0/1000.0; // 駅範囲
-  var velocity = (new Array(5)).map(function(){ return new vector(0,0); });
+  var velocity = [new vector(0,0),new vector(0,0),new vector(0,0),new vector(0,0),new vector(0,0)];
   var prev = new latLng();
   var drawLine = function(pos,l){
     ctx.beginPath();
@@ -27,6 +27,7 @@ window.addEventListener('load',function(){
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
+  var prevTime = new Date();
   gps.on(function(pos, prev){
     
 if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
@@ -52,11 +53,18 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
         }
       }
     });
+    // 速度用記録
+    var time = new Date();
+    velocity.shift();
+    velocity.push(prev.toXY(pos)*1000/(time-prevTime));
+    prevTime = time;
     if(nearest!==null){
       // 最近点位置取得
       var p = openstreetmap.rail[nearest].nodes;
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      //pos = pos.toLatLng(p);
+      var v = velocity.reduce(function(a,b){ return a.add(b); },new vector(0,0)).scale(1/velocity.length);
       // 駅情報確定
    try{
       var queue = [[nearest,p.dist(p0),nearestPos,1],[nearest,p.dist(p1),nearestPos-1,-1]];
@@ -76,7 +84,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([q[1]+rail.len(q[2],ai), openstreetmap.station[a.station][1]]);
+            nextstation.push([(q[1]+rail.len(q[2],ai))/v + 's', openstreetmap.station[a.station][1]]);
           }
         });
       }
@@ -90,7 +98,6 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     });
     // 最近点描画
     if(nearest!==null){
-      //pos = pos.toLatLng(p);
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
       ctx.arc(w2+w2*p.x/d, w2-w2*p.y/d, 5, 0, Math.PI*2);
@@ -102,9 +109,6 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.beginPath();
       ctx.arc(w2+w2*p1.x/d, w2-w2*p1.y/d, 5, 0, Math.PI*2);
       ctx.stroke();
-      velocity.shift();
-      velocity.push(prev.toXY(pos));
-      prev = pos;
     }
     // 駅描画
     ctx.strokeStyle = "#066";
