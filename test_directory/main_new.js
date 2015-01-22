@@ -84,7 +84,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([v<0.5 ? 'STOP' : (q[1]+rail.len(q[2],ai))/v + 's', openstreetmap.station[a.station][1]]);
+            nextstation.push([v<0.01 ? 'STOP' : (q[1]+rail.len(q[2],ai))/v + 's', openstreetmap.station[a.station][1]]);
           }
         });
       }
