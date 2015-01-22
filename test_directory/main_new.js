@@ -64,7 +64,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       //pos = pos.toLatLng(p);
-      var v = velocity.reduce(function(a,b){ return a.add(b); },new vector(0,0)).scale(1/velocity.length);
+      var v = velocity.reduce(function(a,b){ return a.add(b); },new vector(0,0)).dist()/velocity.length;
       // 駅情報確定
    try{
       var queue = [[nearest,p.dist(p0),nearestPos,1],[nearest,p.dist(p1),nearestPos-1,-1]];
