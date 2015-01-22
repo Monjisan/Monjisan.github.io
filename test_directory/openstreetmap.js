@@ -53,6 +53,10 @@
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
+            a.len = [];
+            a.node.forEach(function(b,ib){
+              
+            });
             a = a.nodes;
             ret.rail.forEach(function(b,ib){
               if(ia===ib){ return; }
