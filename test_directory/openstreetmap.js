@@ -53,11 +53,15 @@
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
-            a.len = [];
+            a.len = function(i,j){
+              return Math.abs(a.lend[i]-a.lend[j]);
+            }; // 距離累積計算
+            a.lend = [0];
             a.node.forEach(function(b,ib){
-              
+              if(ib>0)a.lend.push(a.lend[ib-1]+
+                    a.node.dist(b));
             });
-            a = a.nodes;
+            a = a.nodes; // 隣接取得
             ret.rail.forEach(function(b,ib){
               if(ia===ib){ return; }
               b.nodes.forEach(function(c,ic){
