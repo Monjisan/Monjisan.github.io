@@ -6,10 +6,10 @@
   }
 
   // 返すオブジェクト
-  var listener = function(){};
+  var listener = [];
   var ret = {
     on: function(f){
-      if(typeof f==="function"){ listener = f; }
+      if(typeof f==="function"){ listener.push(f); }
     },
     pos: new latLng(),
     event: {},
@@ -20,12 +20,12 @@
   
   
   // GPS監視
-  var successCB = function(e, next){
+  var successCB = function(e){
     ret.prevPos = ret.pos;
     ret.prevEvent = ret.event;
     ret.pos = new latLng(e.coords);
     ret.event = e;
-    listener(ret.pos, ret.prevPos, next);
+    listener.forEach(function(a){ a(ret.pos, ret.prevPos); });
   }, errorCB = function(e){
     console.error('GPS callback',e);
   };
@@ -34,10 +34,11 @@
     navigator.geolocation.getCurrentPosition(successfunc, errorCB);
   }, successfunc = function(e){
     try{
-      successCB(e, function(){ setTimeout(getfunc, 100); });
+      successCB(e);
     }catch(err){
       console.error('GPS event callback',err);
     }
+    setTimeout(getfunc, 100);
   };
   getfunc();
   /* watchPosition type

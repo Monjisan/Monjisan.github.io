@@ -27,7 +27,7 @@ window.addEventListener('load',function(){
   var fixed = true, markerMove = false;
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
-  gps.on(function(pos, prev, next){
+  gps.on(function(pos, prev){
     
 if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 座標の表示
@@ -138,10 +138,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       openstreetmap.load(pos, d, function(){
         console.log("Get Map", openstreetmap.dom);
         prevLoadPos = pos;
-        next();
       });
-    }else{
-      next();
     }
     
   });
