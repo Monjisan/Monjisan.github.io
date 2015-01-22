@@ -53,22 +53,29 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       }
     });
     if(nearest!==null){
-      var queue = [[nearest,0]];
+      // 最近点位置取得
+      var p = openstreetmap.rail[nearest].nodes;
+      var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
+      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
+      // 駅情報確定
+      var queue = [[nearest,p.dist(p0),nearestPos,1],[nearest,p.dist(p1),nearestPos-1,-1]];
       while(queue.length>0){
         var q = queue.shift();
-        openstreetmap.rail[q[0]].nodes.forEach(function(a){
+        var rail = openstreetmap.rail[q[0]];
+        rail.nodes.forEach(function(a,ai){
+          if(q[3]>0&&q[2]>ai || q[3]<0&&q[2]<ai){ return; }
           for(var i in a.next){
             i-=0;
             if(i===nearest){ continue; }
             if(nextrail[i]===undefined){
               nextrail[i] = q[1];
-              queue.push([i,q[1]+1]);
+              queue.push([i,q[1]+rail.len(q[2],ai),a.next[i],0]);
             }else if(nextrail[i]>q[1]){
               nextrail[i] = q[1];
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([q[1], openstreetmap.station[a.station][1]]);
+            nextstation.push([q[1]+rail.len(q[2],ai), openstreetmap.station[a.station][1]]);
           }
         });
       }
@@ -81,9 +88,6 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     });
     // 最近点描画
     if(nearest!==null){
-      var p = openstreetmap.rail[nearest].nodes;
-      var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
-      p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       //pos = pos.toLatLng(p);
       ctx.strokeStyle = "#f00";
       ctx.beginPath();
