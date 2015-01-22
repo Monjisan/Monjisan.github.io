@@ -27,7 +27,7 @@
     ret.event = e;
     listener.forEach(function(a){ a(ret.pos, ret.prevPos); });
   }, errorCB = function(e){
-    console.error(e);
+    console.error('GPS callback',e);
   };
   // setTimeout type
   var getfunc = function(){
@@ -36,7 +36,7 @@
     try{
       successCB(e);
     }catch(err){
-      console.error(err);
+      console.error('GPS event callback',err);
     }
     setTimeout(getfunc, 100);
   };

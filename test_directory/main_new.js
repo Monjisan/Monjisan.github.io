@@ -58,7 +58,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       var p0 = pos.toXY(p[nearestPos]), p1 = pos.toXY(p[nearestPos-1]);
       p = pos.nearestPos(p[nearestPos], p[nearestPos-1]);
       // 駅情報確定
-      var queue = [[nearest,p.dist(p0),nearestPos,1],[nearest,p.dist(p1),nearestPos-1,-1]];
+      /*var queue = [[nearest,p.dist(p0),nearestPos,1],[nearest,p.dist(p1),nearestPos-1,-1]];
       while(queue.length>0){
         var q = queue.shift();
         var rail = openstreetmap.rail[q[0]];
@@ -78,7 +78,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             nextstation.push([q[1]+rail.len(q[2],ai), openstreetmap.station[a.station][1]]);
           }
         });
-      }
+      }*/
     }
     // 直線描画
     ctx.clearRect(0,0,width,width);
