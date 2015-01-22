@@ -25,7 +25,6 @@ window.addEventListener('load',function(){
   
   // GPS呼び出し開始
   var fixed = true, markerMove = false;
-  var velocity = new vector(0,0), vellog =  (new Array(10)).map(function(){ return new vector(0,0); });
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
   gps.on(function(pos, prev){
