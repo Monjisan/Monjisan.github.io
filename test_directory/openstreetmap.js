@@ -55,7 +55,6 @@
             if(usedStation[ia]){ return; }
             var min = 1e10, minrail = -1, minnum = -1;
             ret.rail.forEach(function(b,ib){
-              b.nodes.forEach(function(c,ic){ if(typeof c === typeof 0)console.log(c,ic,ia); });
               b.nodes.forEach(function(c,ic){
                 var d = a[0].dist(c);
                 if(d<min){
@@ -65,10 +64,10 @@
                 }
               });
             });
-            if(minrail!==-1){
+            /*if(minrail!==-1){
               ret.rail[minrail].nodes[minnum].station = ia;
               ret.rail[minrail].station[minnum] = ia;
-            }
+            }*/
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
