@@ -48,6 +48,7 @@
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
+            console.log(nd);
             ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
           });
           ret.station.forEach(function(a,ia){
