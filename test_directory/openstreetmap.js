@@ -27,7 +27,7 @@
           //polyline = [];
           ret.rail = [];
           // 駅取得
-          var stationmap = {};
+          var stationmap = {}; // , usedStation = {};
           xml.find("node").filter(stationFilter).each(function(){
             var a = $(this);
             ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a.find("tag[k=name]").attr("v")]);
@@ -39,11 +39,12 @@
             $(this).find("nd").each(function(){
               var id = $(this).attr("ref"),
                   ndd = xml.find("node[id="+id+"]"),
+                  //st
                   nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, stationmap[id]);
               st.push(ret.station.reduce(function(a,b,index){
                 if(nddp.dist(b[0])){ return index; }
                 return a;
-              }), null);
+              }, null));
               nd.push(nddp);
             });
             /*polyline.push(new google.maps.Polyline({
