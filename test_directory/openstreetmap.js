@@ -27,7 +27,7 @@
           //polyline = [];
           ret.rail = [];
           // 駅取得
-          var stationmap = {}; // , usedStation = {};
+          var stationmap = {}, usedStation = {};
           xml.find("node").filter(stationFilter).each(function(){
             var a = $(this);
             ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a.find("tag[k=name]").attr("v")]);
@@ -39,18 +39,33 @@
             $(this).find("nd").each(function(){
               var id = $(this).attr("ref"),
                   ndd = xml.find("node[id="+id+"]"),
-                  //st
-                  nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, stationmap[id]);
-              st.push(ret.station.reduce(function(a,b,index){
-                if(nddp.dist(b[0])){ return index; }
-                return a;
-              }, null));
+                  sta = stationmap[id],
+                  nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, sta);
+              if(sta!==undefined){ usedStation[sta] = true; }
+              st.push(sta);
               nd.push(nddp);
             });
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
             ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
+          });
+          ret.station.forEach(function(a,ia){
+            if(usedStation[ia]){ return; }
+            var min = 1e10, minrail = -1, minnum = -1;
+            ret.rail.forEach(function(b,ib){
+              b.nodes.forEach(function(c,ic){
+                var d = a[0].dist(c);
+                if(d<min){
+                  minrail = ib;
+                  minnum = ic;
+                }
+              });
+            });
+            if(minrail!==-1){
+              ret.rail[minrail].nodes[minnum].station = ia;
+              ret.rail[minrail].station[minnum] = ia;
+            }
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
