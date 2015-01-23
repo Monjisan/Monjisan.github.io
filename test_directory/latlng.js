@@ -78,8 +78,10 @@ var latLng = (function(){
     },
     // 距離取得関数
     dist: function(p){
+  try{
       var d = this.toXY(p);
       return Math.sqrt(Math.pow(d.y,2)+Math.pow(d.x,2));
+  }catch(e){ console.log(this,p); return 100; }
     },
     // 線分l1,l2までの距離
     distToLine: function(l1, l2){

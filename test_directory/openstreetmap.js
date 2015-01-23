@@ -55,12 +55,12 @@
             var min = 1e10, minrail = -1, minnum = -1;
             ret.rail.forEach(function(b,ib){
               b.nodes.forEach(function(c,ic){
-                /*var d = a[0].dist(c);
+                var d = a[0].dist(c);
                 if(d<min){
                   min = d;
                   minrail = ib;
                   minnum = ic;
-                }*/
+                }
               });
             });
             if(minrail!==-1){
