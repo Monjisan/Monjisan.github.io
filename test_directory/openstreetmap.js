@@ -42,13 +42,13 @@
                   sta = stationmap[id],
                   nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, sta);
               if(sta!==undefined){ usedStation[sta] = true; }
+              if(typeof nddp === typeof 0){ console.log(nddp, id, sta); }
               st.push(sta);
               nd.push(nddp);
             });
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            console.log(nd);
             ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
           });
           ret.station.forEach(function(a,ia){
@@ -56,7 +56,6 @@
             var min = 1e10, minrail = -1, minnum = -1;
             ret.rail.forEach(function(b,ib){
               b.nodes.forEach(function(c,ic){
-                if(typeof c===typeof 0)console.log(c,ic,b.nodes);
                 var d = a[0].dist(c);
                 if(d<min){
                   min = d;
