@@ -48,13 +48,14 @@
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            nd.forEach(function(c,ic){ if(typeof c === typeof 0)console.log(c,ic,nd); });
+            nd
             ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
           });
           ret.station.forEach(function(a,ia){
             if(usedStation[ia]){ return; }
             var min = 1e10, minrail = -1, minnum = -1;
             ret.rail.forEach(function(b,ib){
+              b.nodes.forEach(function(c,ic){ if(typeof c === typeof 0)console.log(c,ic,ia); });
               b.nodes.forEach(function(c,ic){
                 var d = a[0].dist(c);
                 if(d<min){
