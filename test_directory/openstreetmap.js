@@ -6,9 +6,8 @@
     return $(this).find("tag[k=railway][v=station]").length>0;// tag[k=building][v=train_station]
   };
   //var polyline=[];
-  var railway = function(nodes, station, name){
+  var railway = function(nodes, name){
     this.nodes = $.isArray(nodes)?nodes:[];
-    this.station = $.isArray(station)?nodes:[];
     this.name = ""+name;
   };
   var ret = {
@@ -42,14 +41,12 @@
                   sta = stationmap[id],
                   nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, sta);
               if(sta!==undefined){ usedStation[sta] = true; }
-              st.push(sta);
               nd.push(nddp);
             });
             /*polyline.push(new google.maps.Polyline({
               path:nd, strokeColor:"#000", map:googlemaps.map()
             }));*/
-            nd
-            ret.rail.push(new railway(nd, st, $(this).find("tag[k=name]").attr("v")));
+            ret.rail.push(new railway(nd, $(this).find("tag[k=name]").attr("v")));
           });
           ret.station.forEach(function(a,ia){
             if(usedStation[ia]){ return; }
@@ -66,7 +63,6 @@
             });
             if(minrail!==-1){
               ret.rail[minrail].nodes[minnum].station = ia;
-              //ret.rail[minrail].station[minnum] = ia;
             }
           });
           // 隣接線路の取得
