@@ -64,10 +64,10 @@
                 }
               });
             });
-            /*if(minrail!==-1){
+            if(minrail!==-1){
               ret.rail[minrail].nodes[minnum].station = ia;
-              ret.rail[minrail].station[minnum] = ia;
-            }*/
+              //ret.rail[minrail].station[minnum] = ia;
+            }
           });
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
