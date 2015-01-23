@@ -57,6 +57,7 @@
               b.nodes.forEach(function(c,ic){
                 var d = a[0].dist(c);
                 if(d<min){
+                  min = d;
                   minrail = ib;
                   minnum = ic;
                 }
