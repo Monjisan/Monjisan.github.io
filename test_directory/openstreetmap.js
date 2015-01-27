@@ -79,13 +79,15 @@
               b.nodes.forEach(function(c,ic){
                 if(a[0].id === c.id){
                   a[0].next[ib] = ic;
-                  a[0].nextd[ib] = ;
+                  a[0].nextd[ib] = 
+      (ic>0&&a[1].toXY(a[0]).dot(c.toXY(b.nodes[ic-1]))>0?-1:0)+
+(ic<b.nodes.length-1&&a[1].toXY(a[0]).dot(c.toXY(b.nodes[ic+1]))>0?1:0);
                   c.next[ia] = 0;
                   c.nextd[ia] = 1;
                 }
                 if(a[a.length-1].id === c.id){
                   a[a.length-1].next[ib] = ic;
-                  a[a.length-1].nextd[ib] = ic;
+                  a[a.length-1].nextd[ib] = 0;
                   c.next[ia] = a.length-1;
                   c.nextd[ia] = -1;
                 }
