@@ -34,8 +34,13 @@ window.addEventListener('load',function(){
   // google maps準備
   googlemaps.makeMap($('#map_canvas')[0]);
   
+  // デバッグ用
+  var fixed = true;
+  var saving = false;
+  var savedata = [];
+  
   // GPS呼び出し開始
-  var fixed = true, markerMove = false;
+  var markerMove = false;
   var center = googlemaps.makeMarker();
   var prevLoadPos = new latLng();
   var prevTime = new Date();
@@ -153,6 +158,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 駅名・路線名表示
     $("#station").text(station!==null ? station[1] : (nearest!==null?openstreetmap.rail[nearest].name:"不明"));
     $("#nextstation").text(nextstation[0]===undefined ? "不明" : (!nextstation[0][2]?"停車中":"次駅："+nextstation[0][1]+" 残り約"+toTimeStr(nextstation[0][0])));
+    savedata.push({time:(new Date()).valueOf(), value:nextstation[0][0]});
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
@@ -181,6 +187,12 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     $(this).text((fixed=!fixed)?"固定":"移動");
     if(fixed)googlemaps.center(gps.pos.toGoogle());
     center.setDraggable(!fixed);
+  });
+  $("#data").click(function(){
+    $(this).text((saving=!saving)?"停止":"開始");
+    if(!saving){
+      $("#ta").val(JSON.stringify(savedata));
+    }
   });
   
 });
