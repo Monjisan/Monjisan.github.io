@@ -66,7 +66,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       //pos = pos.toLatLng(p);
       var vv = velocity.reduce(function(a,b){ return a.add(b); }, new vector(0,0)).scale(1/velocity.length);
       var v = vv.dist();
-      var isMove = v<0.005;
+      var isMove = !(v<0.005);
       // 駅情報確定
    try{
       var queue = [];
