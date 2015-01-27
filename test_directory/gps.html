@@ -22,12 +22,14 @@
 <body style="margin:0px;">
   <div style="font-size:1em; width:100%;" id="nextstation"></div>
   <div style="font-size:2em; width:100%; text-align:center; border-top: solid 3px #0f0; padding-top:10px; padding-bottom:10px; background:#fff; color:#000;">
-    <span style="font-size:1em;">ただいま</span> <span id="station"></span>
+    <span style="font-size:0.5em;">ただいま</span> <span id="station"></span>
   </div>
   <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div><br>
-  現在：<button id="fixed">固定</button><button id="reset">リセット</button><br>
-  <canvas id="my_map" style="width:100%;max-width:400px;height:400px;margin:0px;"></canvas><br>
-  <br>
-  <b id="error" style="color:#f00;"></b>
+  <div id="debug_items">
+    現在：<button id="fixed">固定</button><button id="reset">リセット</button><br>
+    <canvas id="my_map" style="width:100%;max-width:400px;height:400px;margin:0px;"></canvas><br>
+    <br>
+    <b id="error" style="color:#f00;"></b>
+  </div>
 </body>
 </html>
