@@ -158,7 +158,10 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     // 駅名・路線名表示
     $("#station").text(station!==null ? station[1] : (nearest!==null?openstreetmap.rail[nearest].name:"不明"));
     $("#nextstation").text(nextstation[0]===undefined ? "不明" : (!nextstation[0][2]?"停車中":"次駅："+nextstation[0][1]+" 残り約"+toTimeStr(nextstation[0][0])));
-    savedata.push({time:(new Date()).valueOf(), value:nextstation[0][0]});
+    // 計測値保存
+    if(nextstation[0]!==undefined&&nextstation[0][2]){
+      savedata.push({time:(new Date()).valueOf(), value:nextstation[0][0]});
+    }
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
@@ -192,6 +195,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     $(this).text((saving=!saving)?"停止":"開始");
     if(!saving){
       $("#ta").val(JSON.stringify(savedata));
+      savedata = [];
     }
   });
   
