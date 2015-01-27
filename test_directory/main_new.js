@@ -69,10 +69,10 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       // 駅情報確定
    try{
       var queue = [];
-      if(p.toXY(p0).dot(vv)>=0){
+      if(p0.sub(p).dot(vv)>=0){
         queue.push([nearest,p.dist(p0),nearestPos,1]);
       }
-      if(p.toXY(p1).dot(vv)>=0){
+      if(p1.sub(p).dot(vv)>=0){
         queue.push([nearest,p.dist(p1),nearestPos-1,-1]);
       }
       while(queue.length>0){
