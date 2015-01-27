@@ -11,7 +11,7 @@
     this.name = ""+name;
   };
   var getName = function(a){
-    return a.find("tag[k=name:ja]").attr("v") || a.find("tag[k=name]").attr("v"));
+    return a.find("tag[k=name:ja]").attr("v") || a.find("tag[k=name]").attr("v");
   };
   var ret = {
     // 更新
