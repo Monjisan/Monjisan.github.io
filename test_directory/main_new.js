@@ -109,7 +109,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
           }
           if(typeof a.station===typeof 0){
             nextstation.push([
-              isMove ? ((q[1]+rail.len(q[2],ai))/v|0) : q[1]+rail.len(q[2],ai),
+              (q[1]+rail.len(q[2],ai)) / (isMove ? v : 1),
               openstreetmap.station[a.station][1],
               isMove
             ]);
