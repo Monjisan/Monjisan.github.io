@@ -194,7 +194,18 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
   $("#data").click(function(){
     $(this).text((saving=!saving)?"停止":"開始");
     if(!saving){
-      $("#ta").val(JSON.stringify(savedata));
+      var c = $('<canvas>')[0];
+      var ctx = c.getContext('2d');
+      var str = JSON.stringify(savedata);
+      var w = Math.sqrt(str.length/3)|0, h = str.length/3/w|0;
+      if(w*h*3<str.length){ ++h; }
+      c.width = w; c.height = h;
+      var data = ctx.createImageData(w,h);
+      for(var i=0,j=0;i<w*h*4;++i){
+        data.data[i] = ((i&3)===3)?0xff:(j<str.length?str.charCodeAt(j++)&0xff:0);
+      }
+      ctx.putImageData(data,0,0);
+      $("#dataimg").attr("src",c.toDataURL());
       savedata = [];
     }
   });
