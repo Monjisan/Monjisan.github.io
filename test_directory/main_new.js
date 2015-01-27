@@ -1,4 +1,5 @@
-﻿console.error = function(){
+﻿// デバッグ用
+console.error = function(){
   $("#error").text([].join.call(arguments,"\n"));
 };
 window.addEventListener('load',function(){
@@ -18,6 +19,16 @@ window.addEventListener('load',function(){
       ctx.lineTo(w2+w2*a.x/d, w2-w2*a.y/d);
     });
     ctx.stroke();
+  };
+  // 時間文字列変換
+  var toTimeStr = function(a){
+    if(a<60){
+      return (a|0)+"秒";
+    }else if(a<3600){
+      return (a/60|0)+"分";
+    }else{
+      return (a/3600|0)+"時間";
+    }
   };
 
   // google maps準備
@@ -141,7 +152,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
     });
     // 駅名・路線名表示
     $("#station").text(station!==null ? station[1] : (nearest!==null?openstreetmap.rail[nearest].name:"不明"));
-    $("#nextstation").text((nextstation[0]===undefined||!nextstation[0][2]?"停車中":"次駅："+nextstation[0][1]+" 約"+nextstation[0][0]+""));
+    $("#nextstation").text(nextstation[0]===undefined ? "不明" : (!nextstation[0][2]?"停車中":"次駅："+nextstation[0][1]+" 残り約"+toTimeStr(nextstation[0][0])));
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
@@ -165,7 +176,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
   });
   
 
-
+  // デバッグ用クリックイベント作成
   $("#fixed").click(function(){
     $(this).text((fixed=!fixed)?"固定":"移動");
     if(fixed)googlemaps.center(gps.pos.toGoogle());

@@ -1,20 +1,22 @@
 ﻿var openstreetmap = (function(){
 
+  // 路線・駅検索関数
   var railFilter = function(){
     return $(this).find("tag[k=railway][v=rail]").length>0;
   }, stationFilter = function(){
     return $(this).find("tag[k=railway][v=station]").length>0;// tag[k=building][v=train_station]
   };
-  //var polyline=[];
+  // 線路情報保持用コンストラクタ
   var railway = function(nodes, name){
     this.nodes = $.isArray(nodes)?nodes:[];
     this.name = ""+name;
   };
+  // 名称取得関数
   var getName = function(a){
     return a.find("tag[k=name\\:ja]").attr("v") || a.find("tag[k=name]").attr("v");
   };
   var ret = {
-    // 更新
+    // 更新関数
     load: function(pos, d, callback){
       var lb = pos.toLatLng(-d,-d), rt = pos.toLatLng(d,d);
       $.ajax({
@@ -107,6 +109,7 @@
         error:function(e){ console.error('streetmap',e); }
       });
     },
+    // 駅・路線情報
     rail: [],
     station: [],
   };
