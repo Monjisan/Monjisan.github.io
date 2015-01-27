@@ -85,18 +85,19 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             if(i===nearest){ continue; }
             if(nextrail[i]===undefined){
               nextrail[i] = q[1];
-              queue.push([i,q[1]+rail.len(q[2],ai),a.next[i],0]);
+              queue.push([i,q[1]+rail.len(q[2],ai),a.next[i],a.nextd[i]]);
             }else if(nextrail[i]>q[1]){
               nextrail[i] = q[1];
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([v<0.01 ? 'STOP' : ((q[1]+rail.len(q[2],ai))/v|0) + 's', openstreetmap.station[a.station][1]]);
+            nextstation.push([v<0.005 ? NaN : ((q[1]+rail.len(q[2],ai))/v|0), openstreetmap.station[a.station][1]]);
           }
         });
       }
    }catch(e){ console.error('rail', e); }
     }
+    nextstation = nextstation.sort(function(a,b){ return a[0]-b[0]; });
     // 直線描画
     ctx.clearRect(0,0,width,width);
     openstreetmap.rail.forEach(function(a, index){
@@ -133,7 +134,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.stroke();
       ctx.fill();
     });
-    $("#station").html((station!==null?station[1]:"") + "<br>"+nextstation.join("<br>"));
+    $("#station").html((station!==null?station[1]:"") + "<br>"+(isNaN(nextstation[0])?"<br>":"次駅："+nextstation[1]+"<br>約"+nextstation[0]));
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
