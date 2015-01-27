@@ -10,6 +10,9 @@
     this.nodes = $.isArray(nodes)?nodes:[];
     this.name = ""+name;
   };
+  var getName = function(a){
+    return a.find("tag[k=name:ja]").attr("v") || a.find("tag[k=name]").attr("v"));
+  };
   var ret = {
     // 更新
     load: function(pos, d, callback){
@@ -29,7 +32,7 @@
           var stationmap = {}, usedStation = {};
           xml.find("node").filter(stationFilter).each(function(){
             var a = $(this);
-            ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), a.find("tag[k=name]").attr("v")]);
+            ret.station.push([new latLng(a.attr("lat")-0, a.attr("lon")-0), getName(a)]);
             stationmap[a.attr("id")] = ret.station.length-1;
           });
           // 線路取得
@@ -43,7 +46,7 @@
               if(sta!==undefined){ usedStation[sta] = true; }
               nd.push(nddp);
             });
-            ret.rail.push(new railway(nd, $(this).find("tag[k=name]").attr("v")));
+            ret.rail.push(new railway(nd, getName($(this)) ));
           });
           ret.station.forEach(function(a,ia){
             if(usedStation[ia]){ return; }
