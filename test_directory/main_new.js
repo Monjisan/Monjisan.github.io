@@ -134,7 +134,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.stroke();
       ctx.fill();
     });
-    $("#station").html((station!==null?station[1]:"") + "<br>"+(isNaN(nextstation[0])?"<br>":"次駅："+nextstation[1]+"<br>約"+nextstation[0]));
+    $("#station").html((station!==null?station[1]:"") + "<br>"+(nextstation[0]===undefined||isNaN(nextstation[0][0])?"停車中<br>":"次駅："+nextstation[0][1]+"<br>約"+nextstation[0][0]));
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
