@@ -10,9 +10,18 @@
   <script type="text/javascript" src="./openstreetmap.js"></script>
   <script type="text/javascript" src="./gps.js"></script>
   <script type="text/javascript" src="./main_new.js"></script>
+  <style>
+  body{
+    margin: 0px;
+    background: #555;
+    color: #ff0;
+    font-weight: bold;
+  }
+  </style>
 </head>
 <body style="margin:0px;">
-  現在地<b style="font-size:2em;" id="station">error</b>
+  <div style="font-size:1em; width:100%;" id="nextstation"></div>
+  <div style="font-size:2em; width:100%; text-align:center; border-top: solid 3px #0f0; padding-top:10px; padding-bottom:10px; background:#fff; color:#000;" id="station"></div>
   <div id="map_canvas" style="width:100%;max-width:400px;height:400px;margin:0px;"></div><br>
   現在：<button id="fixed">固定</button><button id="reset">リセット</button><br>
   <canvas id="my_map" style="width:100%;max-width:400px;height:400px;margin:0px;"></canvas><br>

@@ -66,6 +66,7 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       //pos = pos.toLatLng(p);
       var vv = velocity.reduce(function(a,b){ return a.add(b); }, new vector(0,0)).scale(1/velocity.length);
       var v = vv.dist();
+      var isMove = v<0.005;
       // 駅情報確定
    try{
       var queue = [];
@@ -91,7 +92,11 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
             }
           }
           if(typeof a.station===typeof 0){
-            nextstation.push([v<0.005 ? NaN : ((q[1]+rail.len(q[2],ai))/v|0), openstreetmap.station[a.station][1]]);
+            nextstation.push([
+              isMove ? ((q[1]+rail.len(q[2],ai))/v|0) : q[1]+rail.len(q[2],ai),
+              openstreetmap.station[a.station][1],
+              isMove
+            ]);
           }
         });
       }
@@ -134,7 +139,8 @@ if(!fixed)gps.pos = pos = new latLng(googlemaps.center());
       ctx.stroke();
       ctx.fill();
     });
-    $("#station").html((station!==null?station[1]:"") + "<br>"+(nextstation[0]===undefined||isNaN(nextstation[0][0])?"停車中<br>":"次駅："+nextstation[0][1]+"<br>約"+nextstation[0][0]));
+    $("#station").text("ただいま"+(station!==null?station[1]:openstreetmap.rail[nearest].name));
+    $("#nextstation").text((nextstation[0]===undefined||!nextstation[0][2]?"停車中":"次駅："+nextstation[0][1]+" 約"+nextstation[0][0]+""));
     // 情報描画
     ctx.fillStyle = "#000";
     ctx.fillText("rail["+openstreetmap.rail.length+"]", 10, 10);
