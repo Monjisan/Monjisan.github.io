@@ -39,7 +39,7 @@
               var id = $(this).attr("ref"),
                   ndd = xml.find("node[id="+id+"]"),
                   sta = stationmap[id],
-                  nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, sta);
+                  nddp = new latLng(ndd.attr("lat")-0, ndd.attr("lon")-0, id, {}, {}, sta);
               if(sta!==undefined){ usedStation[sta] = true; }
               nd.push(nddp);
             });
@@ -78,16 +78,20 @@
               if(ia===ib){ return; }
               b.nodes.forEach(function(c,ic){
                 if(a[0].id === c.id){
+                  var va = a[1].toXY(a[0]);
                   a[0].next[ib] = ic;
                   a[0].nextd[ib] = 
-      (ic>0&&a[1].toXY(a[0]).dot(c.toXY(b.nodes[ic-1]))>0?-1:0)+
-(ic<b.nodes.length-1&&a[1].toXY(a[0]).dot(c.toXY(b.nodes[ic+1]))>0?1:0);
+      (ic>0               &&va.dot(c.toXY(b.nodes[ic-1]))>0?-1:0)+
+      (ic<b.nodes.length-1&&va.dot(c.toXY(b.nodes[ic+1]))>0? 1:0);
                   c.next[ia] = 0;
                   c.nextd[ia] = 1;
                 }
                 if(a[a.length-1].id === c.id){
+                  var va = a[a.length-2].toXY(a[a.length-1]);
                   a[a.length-1].next[ib] = ic;
-                  a[a.length-1].nextd[ib] = 0;
+                  a[a.length-1].nextd[ib] = 
+      (ic>0               &&va.dot(c.toXY(b.nodes[ic-1]))>0?-1:0)+
+      (ic<b.nodes.length-1&&va.dot(c.toXY(b.nodes[ic+1]))>0? 1:0);
                   c.next[ia] = a.length-1;
                   c.nextd[ia] = -1;
                 }
