@@ -43,9 +43,6 @@
               if(sta!==undefined){ usedStation[sta] = true; }
               nd.push(nddp);
             });
-            /*polyline.push(new google.maps.Polyline({
-              path:nd, strokeColor:"#000", map:googlemaps.map()
-            }));*/
             ret.rail.push(new railway(nd, $(this).find("tag[k=name]").attr("v")));
           });
           ret.station.forEach(function(a,ia){
@@ -68,7 +65,7 @@
           // 隣接線路の取得
           ret.rail.forEach(function(a,ia){
             var self = a;
-            a.len = function(i,j){
+            a.len = function(i, j){
               return Math.abs(self.lend[i]-self.lend[j]);
             }; // 距離累積計算
             a.lend = [0];
@@ -82,11 +79,15 @@
               b.nodes.forEach(function(c,ic){
                 if(a[0].id === c.id){
                   a[0].next[ib] = ic;
+                  a[0].nextd[ib] = ;
                   c.next[ia] = 0;
+                  c.nextd[ia] = 1;
                 }
                 if(a[a.length-1].id === c.id){
                   a[a.length-1].next[ib] = ic;
+                  a[a.length-1].nextd[ib] = ic;
                   c.next[ia] = a.length-1;
+                  c.nextd[ia] = -1;
                 }
               });
             });
