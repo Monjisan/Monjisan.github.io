@@ -38,7 +38,7 @@
     }catch(err){
       console.error('GPS event callback',err);
     }
-    setTimeout(getfunc, 100);
+    setTimeout(getfunc, 200);
   };
   getfunc();
   /* watchPosition type
