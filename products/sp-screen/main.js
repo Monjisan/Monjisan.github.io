@@ -20,7 +20,7 @@
     const now = new Date();
     const times = {
       h: now.getHours().toString().padStart(2, "0"),
-      m: now.getMonth().toString().padStart(2, "0"),
+      m: now.getMinutes().toString().padStart(2, "0"),
       s: now.getSeconds().toString().padStart(2, "0"),
     };
     $("#viewer").text(formatText.replaceAll(/\{[hms]\}/g, (p) => times[p[1]]));
