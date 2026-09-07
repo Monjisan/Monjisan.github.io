@@ -24,7 +24,6 @@
 
   const updateTime = (d) => {
     const now = new Date();
-    const tzoffset = now.getTimezoneOffset();
     const times = {
       h: now.getHours().toString().padStart(2, "0"),
       m: now.getMinutes().toString().padStart(2, "0"),
@@ -35,10 +34,15 @@
       D: now.getDate().toString().padStart(2, "0"),
       DDD: weekdays[now.getDay()] || "",
     };
+    const values = {
+      h: now.getHours(),
+      m: now.getMinutes(),
+      s: now.getSeconds(),
+    };
     const points = {
-      h: calcCirclePos(0.5, now.getHours() / 12),
-      m: calcCirclePos(0.75, now.getMinutes() / 60),
-      s: calcCirclePos(0.85, now.getSeconds() / 60),
+      h: calcCirclePos(0.5, (values.h + values.m / 60 + values.s / 3600) / 12),
+      m: calcCirclePos(0.75, (values.m + values.s / 60) / 60),
+      s: calcCirclePos(0.85, values.s / 60),
     };
 
     const setHandPoints = (targetName, p) => {
